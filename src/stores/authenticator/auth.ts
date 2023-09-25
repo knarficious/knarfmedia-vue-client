@@ -48,7 +48,7 @@ export const useUserAuthStore = defineStore("userAuth", {
           const username = decoded.username;
           localStorage.setItem('_username', username);          
 
-          alert("Vous êtes correctement authentifié ;-)" + username);
+          alert("Vous êtes correctement authentifié ;-) " + username);
         }
 
       } catch (error) {
