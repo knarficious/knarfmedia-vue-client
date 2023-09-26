@@ -31,7 +31,7 @@ export const useUserAuthStore = defineStore("userAuth", {
           body: JSON.stringify(payload),
         });
 
-        console.log('response: ', response.headers);
+        console.log('response: ', response);
 
         const {cookies} = useCookies();
         const jwt = cookies.get("jwt_hp");
