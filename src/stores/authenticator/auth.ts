@@ -31,16 +31,16 @@ export const useUserAuthStore = defineStore("userAuth", {
           body: JSON.stringify(payload),
         });
 
-        const {cookies} = useCookies();
-        console.log('response: ', response);
+        console.log('response: ', response.headers.getSetCookie());
 
-        if (response.status === 200) {
+        const {cookies} = useCookies();
+        const jwt = cookies.get("jwt_hp");
+
+        if (response.status === 204 && jwt !== null) {
 
           this.toggleLoading();
-          this.setIsLoggedIn(true);
-
+          this.setIsLoggedIn(true);          
           
-          const jwt = cookies.get('jwt_hp');
           console.log('jwt: ', jwt);
 
           const decoded: any = jwt_decode(jwt);
@@ -50,6 +50,9 @@ export const useUserAuthStore = defineStore("userAuth", {
 
           alert("Vous êtes correctement authentifié ;-) " + username);
         }
+
+        else alert("Il y a un souci :-(");
+        this.toggleLoading();
 
       } catch (error) {
         this.toggleLoading();
