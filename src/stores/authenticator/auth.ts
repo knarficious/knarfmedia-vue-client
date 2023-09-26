@@ -34,13 +34,13 @@ export const useUserAuthStore = defineStore("userAuth", {
         console.log('response: ', response);
 
         const {cookies} = useCookies();
-        const jwt = cookies.get("jwt_hp");
+        
 
-        if (response.status === 204 && jwt !== null) {
+        if (response.status === 204 && cookies.isKey("jwt_hp")) {
 
           this.toggleLoading();
           this.setIsLoggedIn(true);          
-          
+          const jwt = cookies.get("jwt_hp");
           console.log('jwt: ', jwt);
 
           const decoded: any = jwt_decode(jwt);
