@@ -1,11 +1,13 @@
 import type { View } from "@/types/view";
 import type { SubmissionErrors } from "./error";
 
-export interface LoginState {
+export interface LoginState<T> {
+  retrieved?: T;
   isLoggedIn? : boolean;
   isLoading: boolean;
   error?: string;
   violations?: SubmissionErrors;
+  isAdmin?: boolean
 }
 
 export interface CreateState<T> {

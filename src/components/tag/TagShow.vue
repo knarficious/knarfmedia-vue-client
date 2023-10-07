@@ -72,11 +72,31 @@
               class="text-sm font-medium px-6 py-4 text-left capitalize"
               scope="row"
             >
-              id
-            </th>
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
-            {{ item.id }}
-                        </td>
+            publications
+          </th>
+          <td class="px-6 py-4 whitespace-nowrap text-sm">
+            <template v-if="router.hasRoute('PublicationShow')">
+              <router-link
+                v-for="publication in item.publications"
+                :to="{ name: 'PublicationShow', params: { id: publication['@id'] } }"
+                :key="publication"
+                class="text-blue-600 hover:text-blue-800"
+              >
+                {{ publication.title }}
+
+                <br />
+              </router-link>
+            </template>
+
+            <template v-else>
+              <p
+                v-for="publication in item.publications"
+                :key="publication"
+              >
+                {{ publication.title }}
+              </p>
+            </template>
+            </td>
           </tr>
         </tbody>
       </table>

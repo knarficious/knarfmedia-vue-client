@@ -13,6 +13,10 @@ export const usePublicationDeleteStore = defineStore("publicationDelete", {
     error: undefined,
   }),
 
+  getters: {
+    getIsDeleted: (state) => state.deleted
+  },
+
   actions: {
     async deleteItem(item: Publication) {
       this.setError("");

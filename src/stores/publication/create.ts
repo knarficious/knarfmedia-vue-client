@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import api from "@/utils/api";
+import api from "@/utils/apiFormData";
 import type { Publication } from "@/types/publication";
 import type { CreateState } from "@/types/stores";
 import type { SubmissionErrors } from "@/types/error";
@@ -14,19 +14,28 @@ export const usePublicationCreateStore = defineStore("publicationCreate", {
     error: undefined,
     violations: undefined,
   }),
-
+  
   actions: {
+    
     async create(payload: Publication) {
       this.setError("");
       this.toggleLoading();
 
+      const formdata = new FormData();
+      formdata.append("title", payload.title ?? '') ;
+      formdata.append("summary", payload.summary ?? '' );
+      formdata.append("content", payload.content ?? '');
+      formdata.append("file", payload.file ?? '');
+      const tagsPayload = JSON.stringify(payload.tags);
+      formdata.append("tags", tagsPayload);      
+
       try {
+
         const response = await api("publications", {
           method: "POST",
-          body: JSON.stringify(payload)
+          body: formdata
         });
         const data: Publication = await response.json();
-        console.log('data: ', data);
 
         this.toggleLoading();
         this.setCreated(data);

@@ -14,7 +14,7 @@
           'mt-1 w-full px-3 py-2 border rounded',
           violations?.email ? 'border-red-500' : 'border-gray-300',
         ]"
-        type="text"
+        type="email"
         required
         placeholder=""
       />
@@ -39,9 +39,9 @@
           'mt-1 w-full px-3 py-2 border rounded',
           violations?.password ? 'border-red-500' : 'border-gray-300',
         ]"
-        type="text"
+        type="password"
         placeholder=""
-      />
+      /> <font-awesome-icon icon="eye" id="eye" @click="togglePassword"/>    
       <div
         v-if="violations?.password"
         class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm"
@@ -85,4 +85,15 @@ if (props.values) {
 function emitSubmit() {
   emit("submit", item.value);
 }
+
+function togglePassword() {
+  const input = document.getElementById("Login_password");
+  if (input?.getAttribute("type") === "password") {
+    input?.setAttribute("type", "text");
+  }
+  else if(input?.getAttribute("type") === "text") {
+    input.setAttribute("type", "password");
+  }
+}
+
 </script>

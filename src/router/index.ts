@@ -5,7 +5,8 @@ import publicationRoutes from '@/router/publication';
 import userRoutes from '@/router/user';
 import commentRoutes from '@/router/comment';
 import tagRoutes from '@/router/tag';
-import authRoute from '@/router/authenticator'
+import authRoute from '@/router/authenticator';
+import { useUserAuthStore } from '@/stores/authenticator/auth';
 
 
 
@@ -25,13 +26,20 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
-    
+        
     ...publicationRoutes,
     ...userRoutes,
     ...commentRoutes,
     ...tagRoutes,
     ...authRoute
   ]
+})
+
+router.beforeEach((to) => {
+
+  const authStore = useUserAuthStore() ;
+  
+  if (to.meta.requiresAuth && authStore.isLoggedIn === false) return '/login'
 })
 
 export default router

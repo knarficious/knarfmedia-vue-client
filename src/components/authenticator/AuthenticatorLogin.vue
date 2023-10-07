@@ -44,8 +44,7 @@ async function login(item: User) {
   if (!useAuthStore.isLoggedIn) return;
 
   router.push({
-    name: "PublicationList",
-    //params: { id: useAuthStore.isLoggedIn["@id"]}
+    name: "profile",
   })
 }
 

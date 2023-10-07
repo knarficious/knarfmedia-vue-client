@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between">
       <h1 class="text-3xl my-4">User List</h1>
 
-      <router-link
+      <router-link v-if="!authStore.isLoggedIn"
         :to="{ name: 'UserCreate' }"
         class="px-6 py-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700"
       >
@@ -103,7 +103,7 @@
                 Show
               </router-link>
             </td>
-            <td v-if="item.username === username" class="px-6 py-4 text-sm">
+            <td v-if="item.id === authStore.getUser?.id" class="px-6 py-4 text-sm">
               <router-link
                 :to="{ name: 'UserUpdate', params: { id: item['@id'] } }"
                 class="px-6 py-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700"
@@ -199,14 +199,14 @@ import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUserDeleteStore } from "@/stores/user/delete";
 import { useUserListStore } from "@/stores/user/list";
+import { useUserAuthStore } from "@/stores/authenticator/auth";
 import { useMercureList } from "@/composables/mercureList";
 
 const route = useRoute();
-const username = localStorage.getItem("_username");
 const userDeleteStore = useUserDeleteStore();
 const { deleted: deletedItem, mercureDeleted: mercureDeletedItem } =
   storeToRefs(userDeleteStore);
-
+const authStore = useUserAuthStore();
 const userListStore = useUserListStore();
 const { items, error, view, isLoading } = storeToRefs(userListStore);
 

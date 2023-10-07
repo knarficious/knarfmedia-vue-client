@@ -2,8 +2,15 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { useUserAuthStore } from '@/stores/authenticator/auth'
+import { useCookies } from 'vue3-cookies';
 
 const useAuthStore = useUserAuthStore();
+const {cookies} = useCookies();
+const roles = localStorage.getItem("_roles");
+document.readyState === "complete";
+document.onreadystatechange = function() {
+  useAuthStore.logout();
+}
 </script>
 
 <template>
@@ -17,9 +24,18 @@ const useAuthStore = useUserAuthStore();
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/publications">Publications</RouterLink>
+        <RouterLink to="/tags">Tags</RouterLink>
+        <div v-if="useAuthStore.isLoggedIn === true && roles">
         <RouterLink to="/users">Membres</RouterLink>
-        <div v-if="useAuthStore.isLoggedIn === false">
-        <RouterLink to="/login">Login</RouterLink>
+        </div>
+        <div v-if="useAuthStore.isLoggedIn ">
+        <RouterLink to="/profile">Mon compte</RouterLink>
+        </div>
+        <div v-if="useAuthStore.isLoggedIn === true && cookies.isKey('jwt_hp')">
+        <RouterLink to="/logout">Logout</RouterLink>
+        </div>
+        <div v-else>
+          <RouterLink to="/login">Login</RouterLink>
         </div>
       </nav>
     </div>

@@ -39,8 +39,7 @@
       <template v-else-if="mercureDeletedItem">
         {{ mercureDeletedItem["@id"] }} deleted by another user.
       </template>
-    </div>
-
+    </div>    
     <div class="overflow-x-auto">
       <table class="min-w-full">
         <thead class="border-b">
@@ -69,11 +68,6 @@
               class="text-sm font-medium px-6 py-4 text-left capitalize"
             >
             updatedAt
-            </th>
-            <th
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-            >
-            comments
             </th>
             <th
               class="text-sm font-medium px-6 py-4 text-left capitalize"
@@ -117,40 +111,24 @@
             {{ formatDateTime(item.updatedAt) }}
             </td>
             <td class="px-6 py-4 text-sm">
-            <template v-if="router.hasRoute('CommentShow')">
+            <template v-if="router.hasRoute('UserShow')">
               <router-link
-                v-for="comment in item.comments"
-                :to="{ name: 'CommentShow', params: { id: comment } }"
-                :key="comment"
-                class="text-blue-600 hover:text-blue-800"
-              >
-                {{ comment }}
-
-                <br />
-              </router-link>
+                :to="{ name: 'UserShow', params: { id: item.author['@id']} }"
+                :key="item.author['@id']"
+                >
+            {{ item.author.username }}
+          </router-link>
             </template>
-
-            <template v-else>
-              <p
-                v-for="comment in item.comments"
-                :key="comment"
-              >
-                {{ comment }}
-              </p>
-            </template>
-            </td>
-            <td class="px-6 py-4 text-sm">
-            {{ item.author }}
             </td>
             <td class="px-6 py-4 text-sm">
             <template v-if="router.hasRoute('TagShow')">
               <router-link
                 v-for="tag in item.tags"
-                :to="{ name: 'TagShow', params: { id: tag } }"
+                :to="{ name: 'TagShow', params: { id: tag['@id'] } }"
                 :key="tag"
                 class="text-blue-600 hover:text-blue-800"
               >
-                {{ tag }}
+                {{ tag.name }}
 
                 <br />
               </router-link>

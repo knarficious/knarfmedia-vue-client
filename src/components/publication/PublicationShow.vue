@@ -8,14 +8,17 @@
         &lt; Back to list
       </router-link>
 
-      <div v-if="useAuthStore.isLoggedIn === true">
+      <div v-if="useAuthStore.getIsLoggedIn === true && item?.author.username === useAuthStore.retrieved?.username">
         <router-link
           v-if="item"
           :to="{ name: 'PublicationUpdate', params: { id: item['@id'] } }"
           class="px-6 py-2 mr-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700"
         >
           Edit
+        
         </router-link>
+      </div>
+      <div v-if="useAuthStore.getIsAdmin === true">
         <button
           class="px-6 py-2 bg-red-600 text-white text-xs rounded shadow-md hover:bg-red-700"
           @click="deleteItem"
@@ -150,8 +153,15 @@
               author
             </th>
             <td class="px-6 py-4 whitespace-nowrap text-sm">
-            {{ item.author }}
-                        </td>
+              <template v-if="router.hasRoute('UserShow')">
+                <router-link
+                :to="{ name: 'UserShow', params: { id: item.author['@id']} }"
+                :key="item.author['@id']"
+                >
+                {{ item.author.username }}
+                </router-link>
+                </template>
+            </td>
           </tr>
           <tr class="border-b">
             <th
@@ -164,11 +174,11 @@
             <template v-if="router.hasRoute('TagShow')">
               <router-link
                 v-for="tag in item.tags"
-                :to="{ name: 'TagShow', params: { id: tag } }"
+                :to="{ name: 'TagShow', params: { id: tag['@id'] } }"
                 :key="tag"
                 class="text-blue-600 hover:text-blue-800"
               >
-                {{ tag }}
+                {{ tag.name }}
 
                 <br />
               </router-link>
@@ -179,7 +189,7 @@
                 v-for="tag in item.tags"
                 :key="tag"
               >
-                {{ tag }}
+                {{ tag.name }}
               </p>
             </template>
             </td>
@@ -192,8 +202,10 @@
               filePath
             </th>
             <td class="px-6 py-4 whitespace-nowrap text-sm">
-              {{ item.filePath }}
-                        </td>
+              <div v-if="item.file">
+              <img v-bind:src="MEDIAPATH + item.file " alt=" item.filePath "/>
+              </div>
+              </td>
           </tr>
         </tbody>
       </table>
@@ -210,6 +222,7 @@ import { usePublicationDeleteStore } from "@/stores/publication/delete";
 import { formatDateTime } from "@/utils/date";
 import { useMercureItem } from "@/composables/mercureItem";
 import { useUserAuthStore } from "@/stores/authenticator/auth";
+import { MEDIAPATH } from "@/utils/media";
 
 const route = useRoute();
 const router = useRouter();

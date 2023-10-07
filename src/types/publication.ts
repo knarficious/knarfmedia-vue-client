@@ -7,7 +7,7 @@ export interface Publication extends Item {
   publishedAt?: string;
   updatedAt?: string;
   comments?: any;
-  author?: object;
+  author?: any;
   tags?: any;
-  filePath?: string;
+  file?: any;
 }

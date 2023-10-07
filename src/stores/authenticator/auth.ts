@@ -3,22 +3,26 @@ import api  from "@/utils/api";
 import type { User } from "@/types/user";
 import type { SubmissionErrors } from "@/types/error";
 import { SubmissionError } from "@/utils/error";
-import type { ShowState } from "@/types/stores";
+import type { LoginState } from "@/types/stores";
 import { useCookies } from "vue3-cookies";
 import jwt_decode from "jwt-decode";
 
-interface State extends ShowState<User> {}
+const {cookies} = useCookies();
+interface State extends LoginState<User> {}
 
 export const useUserAuthStore = defineStore("userAuth", {
   state: (): State => ({
     retrieved: undefined ,
     isLoggedIn: false,
-     isLoading: false,
-     error: undefined,
-     violations: undefined,
+    isLoading: false,
+    error: undefined,
+    violations: undefined,
+    isAdmin: false,
     }),
   getters: {
     getIsLoggedIn: (state) => state.isLoggedIn,
+    getUser: (state) => state.retrieved,
+    getIsAdmin: (state) => state.isAdmin
   },
   actions: {
     async login(payload: User) {
@@ -30,25 +34,33 @@ export const useUserAuthStore = defineStore("userAuth", {
           method: "POST",
           body: JSON.stringify(payload),
         });
-
-        console.log('response: ', response);
-
-        const {cookies} = useCookies();
-        
+                 
+        const jwt = cookies.get("jwt_hp");
 
         if (response.status === 204 && cookies.isKey("jwt_hp")) {
 
           this.toggleLoading();
-          this.setIsLoggedIn(true);          
-          const jwt = cookies.get("jwt_hp");
-          console.log('jwt: ', jwt);
+          this.setIsLoggedIn(true);
 
           const decoded: any = jwt_decode(jwt);
-          console.log(decoded);
-          const username = decoded.username;
-          localStorage.setItem('_username', username);          
+          const id = decoded.id;
+          const roles = decoded.roles;;
 
-          alert("Vous êtes correctement authentifié ;-) " + username);
+          if (roles.includes("ROLE_ADMIN")) {
+            this.setIsAdmin(true);            
+          }
+
+          try {
+            const response = await api("users/" + id);
+            const data: User = await response.json();
+            this.setRetrieved(data);
+  
+            alert("Vous êtes correctement authentifié ;-) " + data.username);
+          } 
+          catch (error) {
+            this.toggleLoading();
+          }
+
         }
 
         else alert("Il y a un souci :-(");
@@ -68,7 +80,30 @@ export const useUserAuthStore = defineStore("userAuth", {
         }
       }
     },
+    async logout() {
+      
+      if (this.getIsLoggedIn === true || cookies.isKey("jwt_hp")) {
+        try {
+         
+          const response = await api("token/invalidate");
+          if (response.status === 200) {
+            
+            cookies.remove("jwt_hp");
+            localStorage.removeItem("_roles");
+            this.setIsLoggedIn(false);
+            //alert("Vous êtes maintenant déconnecté");
+            location.reload();
+          }
+          }  
+  
+         catch (error) {
+          console.log(error);
+        }
+      }
+    
 
+    },
+    
     setIsLoggedIn(status = false) {
       this.isLoggedIn = status ? status : !this.isLoggedIn;
     },
@@ -84,6 +119,13 @@ export const useUserAuthStore = defineStore("userAuth", {
     setViolations(violations: SubmissionErrors) {
       this.violations = violations;
     },
+    setRetrieved(retrieved: User) {
+      this.retrieved = retrieved;
+    },
+
+    setIsAdmin(isAdmin = false) {
+      this.isAdmin = isAdmin ? isAdmin : !this.isAdmin;
+    }
   },
 });
 

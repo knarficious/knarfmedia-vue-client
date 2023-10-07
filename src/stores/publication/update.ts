@@ -43,6 +43,7 @@ export const usePublicationUpdateStore = defineStore("publicationUpdate", {
       }
     },
 
+
     async update(payload: Publication) {
       this.setError("");
       this.toggleLoading();
@@ -52,15 +53,22 @@ export const usePublicationUpdateStore = defineStore("publicationUpdate", {
         return;
       }
 
+      const formdata = new FormData();
+      formdata.set("title", payload.title ?? '') ;
+      formdata.set("summary", payload.summary ?? '' );
+      formdata.set("content", payload.content ?? '');
+      formdata.set("file", payload.file ?? '');
+      const tagsPayload = JSON.stringify(payload.tags);
+      formdata.set("tags", tagsPayload);   
+
       try {
         const newHeaders =  new Headers(
           { "Content-Type": "application/ld+json" });        
 
         
         const response = await api(this.retrieved["@id"], {
-          method: "PUT",
-          headers: newHeaders,
-          body: JSON.stringify(payload),
+          method: "PATCH",
+          body: formdata,
         });
         const data: Publication = await response.json();
 

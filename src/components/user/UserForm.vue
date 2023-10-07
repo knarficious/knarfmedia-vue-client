@@ -52,30 +52,6 @@
     </div>
     <div class="mb-2">
       <label
-        for="user_isVerified"
-        class="text-gray-700 block text-sm font-bold capitalize"
-      >
-        isVerified
-      </label>
-      <input
-        id="user_isVerified"
-        v-model="item.isVerified"
-        :class="[
-          'mt-1 w-full px-3 py-2 border rounded',
-          violations?.isVerified ? 'border-red-500' : 'border-gray-300',
-        ]"
-        type="text"
-        placeholder=""
-      />
-      <div
-        v-if="violations?.isVerified"
-        class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm"
-      >
-        {{ violations.isVerified }}
-      </div>
-    </div>
-    <div class="mb-2">
-      <label
         for="user_plainPassword"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
@@ -89,6 +65,7 @@
           violations?.plainPassword ? 'border-red-500' : 'border-gray-300',
         ]"
         type="text"
+        required
         placeholder=""
       />
       <div
@@ -96,30 +73,6 @@
         class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm"
       >
         {{ violations.plainPassword }}
-      </div>
-    </div>
-    <div class="mb-2">
-      <label
-        for="user_id"
-        class="text-gray-700 block text-sm font-bold capitalize"
-      >
-        id
-      </label>
-      <input
-        id="user_id"
-        v-model="item.id"
-        :class="[
-          'mt-1 w-full px-3 py-2 border rounded',
-          violations?.id ? 'border-red-500' : 'border-gray-300',
-        ]"
-        type="text"
-        placeholder=""
-      />
-      <div
-        v-if="violations?.id"
-        class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm"
-      >
-        {{ violations.id }}
       </div>
     </div>
 

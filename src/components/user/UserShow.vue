@@ -8,7 +8,7 @@
         &lt; Back to list
       </router-link>
 
-      <div v-if="item?.username === username">
+      <div v-if="item?.username === username || roles">
         <router-link
           v-if="item"
           :to="{ name: 'UserUpdate', params: { id: item['@id'] } }"
@@ -130,7 +130,8 @@ if (useAuthStore.isLoggedIn ===  false) {
   router.push('/');
 }
 
-const username = localStorage.getItem("_username");
+const username = useAuthStore.getUser?.username;
+const roles = localStorage.getItem("_roles");
 
 useMercureItem({
   store: userShowStore,

@@ -55,11 +55,6 @@
             name
             </th>
             <th
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-            >
-            id
-            </th>
-            <th
               colspan="2"
               class="text-sm font-medium px-6 py-4 text-left capitalize"
             >
@@ -198,6 +193,7 @@ const { deleted: deletedItem, mercureDeleted: mercureDeletedItem } =
 
 const tagListStore = useTagListStore();
 const { items, error, view, isLoading } = storeToRefs(tagListStore);
+console.log("ITEMS: ", items.value);
 
 useMercureList({ store: tagListStore, deleteStore: tagDeleteStore });
 

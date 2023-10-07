@@ -22,6 +22,7 @@ export const useTagShowStore = defineStore("tagShow", {
       try {
         const response = await api(id);
         const data: Tag = await response.json();
+        console.log("data: ", data);
         const hubUrl = extractHubURL(response);
 
         this.toggleLoading();

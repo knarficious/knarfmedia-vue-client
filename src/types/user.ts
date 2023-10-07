@@ -6,4 +6,6 @@ export interface User extends Item {
   isVerified?: boolean;
   plainPassword?: string;
   id?: number;
+  posts?: any;
+  comments?: any
 }
