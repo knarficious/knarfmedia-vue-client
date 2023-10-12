@@ -136,7 +136,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRef, ref, type Ref, onMounted, onBeforeMount, isProxy, toRaw } from "vue";
+import { toRef, ref, type Ref, onBeforeMount, toRaw } from "vue";
 import { formatDateInput } from "@/utils/date";
 import type { Publication } from "@/types/publication";
 import type { SubmissionErrors } from "@/types/error";
@@ -154,7 +154,7 @@ const props = defineProps<{
 
 const fileInput: Ref<Publication> = ref({});
 
-onMounted( () => {
+onBeforeMount( () => {
   useTagStore.getItems();
 })
   

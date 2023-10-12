@@ -10,4 +10,5 @@ export interface Publication extends Item {
   author?: any;
   tags?: any;
   file?: any;
+  filePath?: any;
 }

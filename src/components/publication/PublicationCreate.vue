@@ -47,7 +47,7 @@ async function create(item: Publication) {
   if (!publicationCreateStore.created) return;
 
   router.push({
-    name: "PublicationUpdate",
+    name: "PublicationShow",
     params: { id: publicationCreateStore.created["@id"] },
   });
 }

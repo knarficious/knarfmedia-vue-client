@@ -202,8 +202,8 @@
               filePath
             </th>
             <td class="px-6 py-4 whitespace-nowrap text-sm">
-              <div v-if="item.file">
-              <img v-bind:src="MEDIAPATH + item.file " alt=" item.filePath "/>
+              <div v-if="item.filePath">
+              <img v-bind:src="MEDIAPATH + item.filePath " alt=" item.filePath "/>
               </div>
               </td>
           </tr>

@@ -30,13 +30,12 @@ export const usePublicationCreateStore = defineStore("publicationCreate", {
       formdata.append("tags", tagsPayload);      
 
       try {
-
         const response = await api("publications", {
           method: "POST",
-          body: formdata
+          body: formdata,
         });
-        const data: Publication = await response.json();
 
+        const data: Publication = await response.json()
         this.toggleLoading();
         this.setCreated(data);
       } catch (error) {

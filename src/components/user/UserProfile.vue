@@ -5,28 +5,22 @@
             {{ data.username }}
         </div>        
          <div class="px-6 py-4 whitespace-nowrap">
-            <h3>Vos Publications: Quantité={{ data.posts?.length }} : </h3>
+            <h3>Vos Publications:  </h3>
             <br/>
-            <template v-if="router.hasRoute('PublicationShow')" >
-            <router-link 
-            v-for="post in data.posts"
-                :to="{ name: 'PublicationShow', params: { id: post } }"
-                :key="post"
+            <template v-for="item in items" :key="item['@id']" >
+            <div class="px-6 py-4">
+              <router-link
+                v-if="item.author.username === authStore.getUser?.username"
+                :to="{ name: 'PublicationShow', params: { id: item['@id'] } }"
                 class="text-blue-600 hover:text-blue-800"
             >
-                {{ post }}
+                {{ item.title }}
 
                 <br />
             </router-link>
+          </div>
             </template>
-            <template v-else>
-              <p
-                v-for="post in data.posts"
-                :key="post"
-              >
-                {{ post }}
-              </p>
-            </template>
+
             <br>
             <h3>Vos Commentaires: Quantité={{ data.comments?.length }} : </h3>
             <br/>
@@ -56,14 +50,25 @@
     </div>
 </template>
 <script setup lang="ts">
-//import router from '@/router';
+import { watch } from 'vue';
 import { useUserAuthStore } from '@/stores/authenticator/auth';
 import { storeToRefs } from 'pinia';
-import { useRouter } from "vue-router";
-import { usePublicationDeleteStore } from '@/stores/publication/delete';
-const publicationDeleteStore = usePublicationDeleteStore();
+import { useRoute, useRouter } from "vue-router";
+import { usePublicationListStore } from "@/stores/publication/list";
 const authStore = useUserAuthStore();
+const publicationListStore = usePublicationListStore();
 const { retrieved: data } = storeToRefs(authStore);
+const { items, error, view, isLoading } = storeToRefs(publicationListStore);
 const router = useRouter();
+const route = useRoute();
+
+watch(
+  () => route.query.page,
+  (newPage) => {
+    const page = newPage as string;
+    publicationListStore.getItems(page);
+  },
+  { immediate: true }
+);
 
 </script>

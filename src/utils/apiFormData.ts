@@ -32,6 +32,8 @@ export default async function (id: string, options: any = {}) {
     );
 
     throw new SubmissionError(errors);
-  }  
+  }
+  
+  return response;
   
 }
