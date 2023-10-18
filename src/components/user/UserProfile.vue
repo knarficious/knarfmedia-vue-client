@@ -1,7 +1,7 @@
 <template>
-    <div class="container mx-auto px-4 max-w-2xl mt-4">
+    <div class="card container mx-auto px-4 max-w-2xl mt-4">
         <div v-if="data">
-        <div class="px-6 py-4 whitespace-nowrap">
+        <div class="px-6 py-4">
             {{ data.username }}
         </div>        
          <div class="px-6 py-4 whitespace-nowrap">
@@ -22,27 +22,19 @@
             </template>
 
             <br>
-            <h3>Vos Commentaires: Quantité={{ data.comments?.length }} : </h3>
+            <h3>Vos Commentaires: </h3>
             <br/>
-            <template v-if="router.hasRoute('CommentShow')">
-            <router-link 
-            v-for="comment in data.comments"
-                :to="{ name: 'CommentShow', params: { id: comment } }"
-                :key="comment"
+            <template v-for="comment in commentItems" :key="comment['@id']">
+              <div class="px-6 py-4">
+              <router-link 
+              :to="{ name: 'CommentShow', params: { id: comment['@id'] } }"
                 class="text-blue-600 hover:text-blue-800"
             >
-                {{ comment }}
+                {{ comment['@id'] }}
 
                 <br />
             </router-link>
-            </template>
-            <template v-else>
-              <p
-                v-for="comment in data.comments"
-                :key="comment"
-              >
-                {{ comment }}
-              </p>
+            </div>
             </template>
 
          </div>
@@ -53,20 +45,23 @@
 import { watch } from 'vue';
 import { useUserAuthStore } from '@/stores/authenticator/auth';
 import { storeToRefs } from 'pinia';
-import { useRoute, useRouter } from "vue-router";
-import { usePublicationListStore } from "@/stores/publication/list";
+import { useRoute } from "vue-router";
+import { useUserPublicationsListStore } from "@/stores/publication/list_by_user";
+import { useUserCommentsListStore } from '@/stores/comment/list_by_user';
 const authStore = useUserAuthStore();
-const publicationListStore = usePublicationListStore();
+const publicationListStore = useUserPublicationsListStore();
+const commentListStore = useUserCommentsListStore();
 const { retrieved: data } = storeToRefs(authStore);
-const { items, error, view, isLoading } = storeToRefs(publicationListStore);
-const router = useRouter();
+const { items } = storeToRefs(publicationListStore);
+const { commentItems } = storeToRefs(commentListStore);
 const route = useRoute();
 
 watch(
   () => route.query.page,
   (newPage) => {
     const page = newPage as string;
-    publicationListStore.getItems(page);
+    publicationListStore.getItems(page, authStore.retrieved?.id);
+    commentListStore.getItems(page, authStore.retrieved?.id);
   },
   { immediate: true }
 );

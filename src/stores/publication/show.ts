@@ -14,6 +14,10 @@ export const usePublicationShowStore = defineStore("publicationShow", {
     hubUrl: undefined,
   }),
 
+  getters: {
+    getPublication: (state) => state.retrieved
+  },
+  
   actions: {
     async retrieve(id: string) {
       this.setError("");

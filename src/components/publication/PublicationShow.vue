@@ -119,37 +119,6 @@
               class="text-sm font-medium px-6 py-4 text-left capitalize"
               scope="row"
             >
-              comments
-            </th>
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
-            <template v-if="router.hasRoute('CommentShow')">
-              <router-link
-                v-for="comment in item.comments"
-                :to="{ name: 'CommentShow', params: { id: comment } }"
-                :key="comment"
-                class="text-blue-600 hover:text-blue-800"
-              >
-                {{ comment }}
-
-                <br />
-              </router-link>
-            </template>
-
-            <template v-else>
-              <p
-                v-for="comment in item.comments"
-                :key="comment"
-              >
-                {{ comment }}
-              </p>
-            </template>
-            </td>
-          </tr>
-          <tr class="border-b">
-            <th
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-              scope="row"
-            >
               author
             </th>
             <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -207,6 +176,39 @@
               </div>
               </td>
           </tr>
+
+          <tr class="border-b">
+            <th
+              class="text-sm font-medium px-6 py-4 text-left capitalize"
+              scope="row"
+            >
+              comments
+            </th>
+            <td class="px-6 py-4 whitespace-nowrap">
+            <template v-for="comment in item.comments"
+                :key="comment"
+              >
+                <div class="py-2">
+                  "{{ comment.content }}"
+                  <span class="px-2">par {{ comment.author.username }}</span>
+                  <span class="px-2">le {{ comment.publishedAt }}</span>
+                </div>
+
+                <br />
+            </template>
+
+            <br />
+
+            <template v-if="useAuthStore.getIsLoggedIn === true">
+              <button
+          class="px-6 py-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-blue-700"
+          @click="pushToComment"
+        >
+          Commenter
+        </button>
+            </template>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -255,6 +257,18 @@ async function deleteItem() {
       router.push({ name: "PublicationList" });
     }
   }
+}
+
+function pushToComment() {
+
+  const id = publicationShowStore.getPublication?.id;  
+  localStorage.setItem("publicationId", JSON.stringify(id));
+
+  router.push({
+            name: 'PublicationComment',
+            params:{ id: item?.value?.id}
+          });
+  
 }
 
 onBeforeUnmount(() => {

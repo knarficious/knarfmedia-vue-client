@@ -25,7 +25,7 @@ document.onreadystatechange = function() {
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/publications">Publications</RouterLink>
         <RouterLink to="/tags">Tags</RouterLink>
-        <div v-if="useAuthStore.isLoggedIn === true && roles">
+        <div v-if="useAuthStore.isLoggedIn === true && useAuthStore.isAdmin === true">
         <RouterLink to="/users">Membres</RouterLink>
         </div>
         <div v-if="useAuthStore.isLoggedIn ">
@@ -36,6 +36,9 @@ document.onreadystatechange = function() {
         </div>
         <div v-else>
           <RouterLink to="/login">Login</RouterLink>
+        </div>
+        <div v-if="useAuthStore.isLoggedIn === false && !cookies.isKey('jwt_hp')">
+        <RouterLink to="/register">Register</RouterLink>
         </div>
       </nav>
     </div>

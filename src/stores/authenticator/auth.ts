@@ -34,13 +34,13 @@ export const useUserAuthStore = defineStore("userAuth", {
           method: "POST",
           body: JSON.stringify(payload),
         });
-                 
-        const jwt = cookies.get("jwt_hp");
 
         if (response.status === 204 && cookies.isKey("jwt_hp")) {
 
           this.toggleLoading();
           this.setIsLoggedIn(true);
+
+          const jwt = cookies.get("jwt_hp");
 
           const decoded: any = jwt_decode(jwt);
           const id = decoded.id;
@@ -62,7 +62,7 @@ export const useUserAuthStore = defineStore("userAuth", {
           }
 
         }
-
+        
         else alert("Il y a un souci :-(");
         this.toggleLoading();
 
@@ -89,7 +89,6 @@ export const useUserAuthStore = defineStore("userAuth", {
           if (response.status === 200) {
             
             cookies.remove("jwt_hp");
-            localStorage.removeItem("_roles");
             this.setIsLoggedIn(false);
             //alert("Vous êtes maintenant déconnecté");
             location.reload();

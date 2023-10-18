@@ -75,10 +75,7 @@
             </td>
             <td class="px-6 py-4 text-sm">
             {{ item.name }}
-                        </td>
-            <td class="px-6 py-4 text-sm">
-            {{ item.id }}
-                        </td>
+            </td>
             <td class="px-6 py-4 text-sm">
               <router-link
                 :to="{ name: 'TagShow', params: { id: item['@id'] } }"
@@ -193,7 +190,6 @@ const { deleted: deletedItem, mercureDeleted: mercureDeletedItem } =
 
 const tagListStore = useTagListStore();
 const { items, error, view, isLoading } = storeToRefs(tagListStore);
-console.log("ITEMS: ", items.value);
 
 useMercureList({ store: tagListStore, deleteStore: tagDeleteStore });
 

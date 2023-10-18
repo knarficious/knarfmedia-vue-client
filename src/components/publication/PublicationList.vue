@@ -47,11 +47,6 @@
             <th
               class="text-sm font-medium px-6 py-4 text-left capitalize"
             >
-              id
-            </th>
-            <th
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-            >
             title
             </th>
             <th
@@ -89,15 +84,6 @@
         </thead>
         <tbody>
           <tr v-for="item in items" :key="item['@id']" class="border-b">
-            <td class="px-6 py-4 text-sm">
-              <router-link
-                v-if="item"
-                :to="{ name: 'PublicationShow', params: { id: item['@id'] } }"
-                class="text-blue-600 hover:text-blue-800"
-              >
-                {{ item["@id"] }}
-              </router-link>
-            </td>
             <td class="px-6 py-4 text-sm">
             {{ item.title }}
                         </td>

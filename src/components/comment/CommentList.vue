@@ -78,7 +78,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in items" :key="item['@id']" class="border-b">
+          <tr v-for="item in commentItems" :key="item['@id']" class="border-b">
             <td class="px-6 py-4 text-sm">
               <router-link
                 v-if="item"
@@ -206,15 +206,17 @@ import { useCommentDeleteStore } from "@/stores/comment/delete";
 import { useCommentListStore } from "@/stores/comment/list";
 import { formatDateTime } from "@/utils/date";
 import { useMercureList } from "@/composables/mercureList";
+import { useUserAuthStore } from "@/stores/authenticator/auth";
 
 const route = useRoute();
+const useAuthStore = useUserAuthStore();
 
 const commentDeleteStore = useCommentDeleteStore();
 const { deleted: deletedItem, mercureDeleted: mercureDeletedItem } =
   storeToRefs(commentDeleteStore);
 
 const commentListStore = useCommentListStore();
-const { items, error, view, isLoading } = storeToRefs(commentListStore);
+const { commentItems, error, view, isLoading } = storeToRefs(commentListStore);
 
 useMercureList({ store: commentListStore, deleteStore: commentDeleteStore });
 

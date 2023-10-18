@@ -17,6 +17,14 @@ export interface CreateState<T> {
   violations?: SubmissionErrors;
 }
 
+export interface CommentPublicationState<T> {
+  publication: any;
+  created?: T;
+  isLoading: boolean;
+  error?: string;
+  violations?: SubmissionErrors;
+}
+
 export interface DeleteState<T> {
   deleted?: T;
   mercureDeleted?: T;
@@ -26,6 +34,14 @@ export interface DeleteState<T> {
 
 export interface ListState<T> {
   items: T[];
+  isLoading: boolean;
+  error?: string;
+  hubUrl?: URL;
+  view?: View;
+}
+
+export interface CommentListState<T> {
+  commentItems: T[];
   isLoading: boolean;
   error?: string;
   hubUrl?: URL;

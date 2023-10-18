@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import api from "@/utils/apiFormData";
+import api from "@/utils/api";
 import { extractHubURL } from "@/utils/mercure";
 import type { Publication } from "@/types/publication";
 import type { UpdateState } from "@/types/stores";
@@ -53,19 +53,14 @@ export const usePublicationUpdateStore = defineStore("publicationUpdate", {
         return;
       }
 
-      const formdata = new FormData();
-      formdata.set("title", payload.title ?? '') ;
-      formdata.set("summary", payload.summary ?? '' );
-      formdata.set("content", payload.content ?? '');
-      formdata.set("file", payload.file ?? '');
-      const tagsPayload = JSON.stringify(payload.tags);
-      formdata.set("tags", tagsPayload);   
+
 
       try {
         
         const response = await api(this.retrieved["@id"], {
           method: "PUT",
-          body: formdata,
+          headers: new Headers({ "Content-Type": "application/ld+json" }),
+          body: JSON.stringify(payload),
         });
         const data: Publication = await response.json();
 

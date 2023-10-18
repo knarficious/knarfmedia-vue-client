@@ -55,7 +55,7 @@
         for="user_plainPassword"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        plainPassword
+        Password
       </label>
       <input
         id="user_plainPassword"
@@ -64,10 +64,10 @@
           'mt-1 w-full px-3 py-2 border rounded',
           violations?.plainPassword ? 'border-red-500' : 'border-gray-300',
         ]"
-        type="text"
+        type="password"
         required
         placeholder=""
-      />
+      /> <font-awesome-icon icon="eye" id="eye" @click="togglePassword"/> 
       <div
         v-if="violations?.plainPassword"
         class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm"
@@ -107,6 +107,16 @@ if (props.values) {
   item.value = {
     ...props.values,
   };
+}
+
+function togglePassword() {
+  const input = document.getElementById("user_plainPassword");
+  if (input?.getAttribute("type") === "password") {
+    input?.setAttribute("type", "text");
+  }
+  else if(input?.getAttribute("type") === "text") {
+    input.setAttribute("type", "password");
+  }
 }
 
 function emitSubmit() {

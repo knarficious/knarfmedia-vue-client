@@ -6,8 +6,6 @@ import userRoutes from '@/router/user';
 import commentRoutes from '@/router/comment';
 import tagRoutes from '@/router/tag';
 import authRoute from '@/router/authenticator';
-import { useUserAuthStore } from '@/stores/authenticator/auth';
-
 
 
 const router = createRouter({
@@ -33,13 +31,6 @@ const router = createRouter({
     ...tagRoutes,
     ...authRoute
   ]
-})
-
-router.beforeEach((to) => {
-
-  const authStore = useUserAuthStore() ;
-  
-  if (to.meta.requiresAuth && authStore.isLoggedIn === false) return '/login'
 })
 
 export default router

@@ -8,11 +8,13 @@ export default [
     name: "TagCreate",
     path: "/tags/create",
     component: () => import("@/views/tag/ViewCreate.vue"),
+    meta: { requiresAuth: true }
   },
   {
     name: "TagUpdate",
     path: "/tags/edit/:id",
     component: () => import("@/views/tag/ViewUpdate.vue"),
+    meta: { requiresAuth: true }
   },
   {
     name: "TagShow",

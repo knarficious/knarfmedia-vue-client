@@ -1,10 +1,10 @@
 <template>
   <div class="container mx-auto px-4 max-w-2xl mt-4">
     <router-link
-      :to="{ name: 'CommentList' }"
+      :to="{ name: 'PublicationShow', params: { id: path} }"
       class="text-blue-600 hover:text-blue-800"
     >
-      &lt; Back to list
+      &lt; Back to Publication
     </router-link>
 
     <h1 class="text-3xl my-4">Create Comment</h1>
@@ -30,13 +30,15 @@
 
 <script lang="ts" setup>
 import { onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import Form from "@/components/comment/CommentForm.vue";
 import { useCommentCreateStore } from "@/stores/comment/create";
 import type { Comment } from "@/types/comment";
 
 const router = useRouter();
+const route = useRoute();
+const path = route.path.slice(0,15);
 
 const commentCreateStore = useCommentCreateStore();
 const { isLoading, error, violations } = storeToRefs(commentCreateStore);
@@ -47,7 +49,7 @@ async function create(item: Comment) {
   if (!commentCreateStore.created) return;
 
   router.push({
-    name: "CommentUpdate",
+    name: "CommentShow",
     params: { id: commentCreateStore.created["@id"] },
   });
 }

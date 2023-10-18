@@ -8,11 +8,13 @@ export default [
     name: "CommentCreate",
     path: "/comments/create",
     component: () => import("@/views/comment/ViewCreate.vue"),
+    meta: { requiresAuth: true }
   },
   {
     name: "CommentUpdate",
     path: "/comments/edit/:id",
     component: () => import("@/views/comment/ViewUpdate.vue"),
+    meta: { requiresAuth: true }
   },
   {
     name: "CommentShow",

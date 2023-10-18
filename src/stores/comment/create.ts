@@ -1,27 +1,37 @@
 import { defineStore } from "pinia";
 import api from "@/utils/api";
 import type { Comment } from "@/types/comment";
-import type { CreateState } from "@/types/stores";
+import type { CommentPublicationState } from "@/types/stores";
 import type { SubmissionErrors } from "@/types/error";
 import { SubmissionError } from "@/utils/error";
+import { useRoute } from "vue-router";
 
-interface State extends CreateState<Comment> {}
+interface State extends CommentPublicationState<Comment> {}
 
 export const useCommentCreateStore = defineStore("commentCreate", {
-  state: (): State => ({
+  
+  state: (): State => ({ 
+    publication: undefined,   
     created: undefined,
     isLoading: false,
     error: undefined,
     violations: undefined,
+    
   }),
 
+  
   actions: {
+
     async create(payload: Comment) {
+      
       this.setError("");
       this.toggleLoading();
-
+      
       try {
-        const response = await api("comments", {
+        // retrieve publication id from LocalStorage        
+        const publicationId = localStorage.getItem("publicationId");
+
+        const response = await api("publications/" + publicationId + "/commenter", {
           method: "POST",
           body: JSON.stringify(payload),
         });
@@ -29,6 +39,8 @@ export const useCommentCreateStore = defineStore("commentCreate", {
 
         this.toggleLoading();
         this.setCreated(data);
+        // remove publication id from LocalStorage
+        localStorage.removeItem("publicationId");
       } catch (error) {
         this.toggleLoading();
 
@@ -60,4 +72,5 @@ export const useCommentCreateStore = defineStore("commentCreate", {
       this.violations = violations;
     },
   },
+  
 });

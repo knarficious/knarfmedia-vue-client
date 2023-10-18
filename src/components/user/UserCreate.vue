@@ -1,13 +1,7 @@
 <template>
   <div class="container mx-auto px-4 max-w-2xl mt-4">
-    <router-link
-      :to="{ name: 'UserList' }"
-      class="text-blue-600 hover:text-blue-800"
-    >
-      &lt; Back to list
-    </router-link>
 
-    <h1 class="text-3xl my-4">Create User</h1>
+    <h1 class="text-3xl my-4">Register</h1>
 
     <div
       v-if="isLoading"
@@ -46,8 +40,9 @@ async function create(item: User) {
 
   if (!userCreateStore.created) return;
 
+  alert(userCreateStore.created.username + ": nous avons envoyé un email à l'adresse " + userCreateStore.created.email);
   router.push({
-    name: "UserUpdate",
+    name: "UserShow",
     params: { id: userCreateStore.created["@id"] },
   });
 }

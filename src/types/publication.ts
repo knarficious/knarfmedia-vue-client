@@ -11,4 +11,5 @@ export interface Publication extends Item {
   tags?: any;
   file?: any;
   filePath?: any;
+  id?: number
 }

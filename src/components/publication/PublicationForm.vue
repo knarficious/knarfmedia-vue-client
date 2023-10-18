@@ -100,7 +100,7 @@
         {{ violations.tags }}
       </div>
     </div>
-    <div class="mb-2">
+    <div v-if="$route.name === 'PublicationCreate'" class="mb-2">
       <label
         for="publication_file"
         class="text-gray-700 block text-sm font-bold capitalize"
@@ -136,7 +136,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRef, ref, type Ref, onBeforeMount, toRaw } from "vue";
+import { toRef, ref, type Ref, onMounted, toRaw } from "vue";
 import { formatDateInput } from "@/utils/date";
 import type { Publication } from "@/types/publication";
 import type { SubmissionErrors } from "@/types/error";
@@ -154,7 +154,7 @@ const props = defineProps<{
 
 const fileInput: Ref<Publication> = ref({});
 
-onBeforeMount( () => {
+onMounted( () => {
   useTagStore.getItems();
 })
   
@@ -180,7 +180,6 @@ const arr1: any[] = [];
 const arr2: any[] = [];
 
 arr1.push(Object.values(toRaw(items.value)));
-console.log("Array= ", arr1);
 
 let options: any[] = [];
 for (let index = 0; index < arr1.length; index++) {

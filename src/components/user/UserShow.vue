@@ -131,7 +131,7 @@ if (useAuthStore.isLoggedIn ===  false) {
 }
 
 const username = useAuthStore.getUser?.username;
-const roles = localStorage.getItem("_roles");
+const roles = useAuthStore.getIsAdmin;
 
 useMercureItem({
   store: userShowStore,

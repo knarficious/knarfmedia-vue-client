@@ -5,11 +5,10 @@ import type { Comment } from "@/types/comment";
 import type { View } from "@/types/view";
 import type { CommentListState } from "@/types/stores";
 import type { PagedCollection } from "@/types/collection";
-import { useUserAuthStore } from "../authenticator/auth";
 
 interface State extends CommentListState<Comment> {}
 
-export const useCommentListStore = defineStore("commentList", {
+export const useUserCommentsListStore = defineStore("userCommentsList", {
   state: (): State => ({
     commentItems: [],
     isLoading: false,
@@ -19,13 +18,12 @@ export const useCommentListStore = defineStore("commentList", {
   }),
 
   actions: {
-    async getItems(page?: string) {
+    async getItems(page?: string, userId?: number) {
       this.setError("");
       this.toggleLoading();
 
       try {
-        const useAuth = useUserAuthStore();
-        const path = page ? `users?page=${page}` : "users/" + useAuth.getUser?.id + "/comments";
+        const path = page ? `comments?page=${page}` : "users/" + userId + "/comments";
         const response = await api(path);
         const data: PagedCollection<Comment> = await response.json();
         const hubUrl = extractHubURL(response);
