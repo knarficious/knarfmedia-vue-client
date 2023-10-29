@@ -172,7 +172,7 @@
             </th>
             <td class="px-6 py-4 whitespace-nowrap text-sm">
               <div v-if="item.filePath">
-              <img v-bind:src="MEDIAPATH + item.filePath " alt=" item.filePath "/>
+              <img v-bind:src="baseUrl + '/media/' + item.filePath " alt=" item.filePath "/>
               </div>
               </td>
           </tr>
@@ -224,10 +224,10 @@ import { usePublicationDeleteStore } from "@/stores/publication/delete";
 import { formatDateTime } from "@/utils/date";
 import { useMercureItem } from "@/composables/mercureItem";
 import { useUserAuthStore } from "@/stores/authenticator/auth";
-import { MEDIAPATH } from "@/utils/media";
 
 const route = useRoute();
 const router = useRouter();
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const publicationDeleteStore = usePublicationDeleteStore();
 const { error: deleteError, deleted } = storeToRefs(publicationDeleteStore);
