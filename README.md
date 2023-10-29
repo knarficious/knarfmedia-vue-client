@@ -1,6 +1,6 @@
-# knarfmedia-vue-app
+# knarfmedia-vue-client
 
-This template should help get you started developing with Vue 3 in Vite.
+Client made with Vue + Vite + tailwind consuming API knarfmedia (https://github.com/knarficious/knarfmedia-api)
 
 ## Recommended IDE Setup
 
