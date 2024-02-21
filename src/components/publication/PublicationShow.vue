@@ -172,7 +172,7 @@
             </th>
             <td class="px-6 py-4 whitespace-nowrap text-sm">
               <div v-if="item.filePath">
-              <img v-bind:src="baseUrl + '/media/' + item.filePath " alt=" item.filePath "/>
+              <img class="w-48 md:w-96 lg:w-250" v-bind:src="baseUrl + '/media/' + item.filePath " alt=" item.filePath "/>
               </div>
               </td>
           </tr>
