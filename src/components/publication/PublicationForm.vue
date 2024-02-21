@@ -180,7 +180,7 @@ const arr1: any[] = [];
 const arr2: any[] = [];
 
 arr1.push(Object.values(toRaw(items.value)));
-
+console.log('Tags Array: ', arr1);
 let options: any[] = [];
 for (let index = 0; index < arr1.length; index++) {
   options = arr1[index];

@@ -26,8 +26,8 @@ export const usePublicationCreateStore = defineStore("publicationCreate", {
       formdata.append("summary", payload.summary ?? '' );
       formdata.append("content", payload.content ?? '');
       formdata.append("file", payload.file ?? '');
-      const tagsPayload = JSON.stringify(payload.tags);
-      formdata.append("tags", tagsPayload);      
+      //const tagsPayload = JSON.stringify(payload.tags);
+      formdata.append("tags", payload.tags ?? '');      
 
       try {
         const response = await api("publications", {
