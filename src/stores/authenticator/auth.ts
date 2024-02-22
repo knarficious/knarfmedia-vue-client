@@ -82,7 +82,7 @@ export const useUserAuthStore = defineStore("userAuth", {
     },
     async logout() {
       
-      if (this.getIsLoggedIn === true || cookies.isKey("jwt_hp")) {
+      if (this.getIsLoggedIn === true) {
         try {
          
           const response = await api("token/invalidate");
@@ -98,8 +98,7 @@ export const useUserAuthStore = defineStore("userAuth", {
          catch (error) {
           console.log(error);
         }
-      }
-    
+      } 
 
     },
     
