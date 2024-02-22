@@ -82,13 +82,14 @@ export const useUserAuthStore = defineStore("userAuth", {
     },
     async logout() {
       
-      if (this.getIsLoggedIn === true) {
+      if (this.getIsLoggedIn === true && cookies.isKey("jwt_hp")) {
         try {
          
           const response = await api("token/invalidate");
           if (response.status === 200) {
             
             cookies.remove("jwt_hp");
+            cookies.remove("jwt_s");
             this.setIsLoggedIn(false);
             //alert("Vous êtes maintenant déconnecté");
             location.reload();
