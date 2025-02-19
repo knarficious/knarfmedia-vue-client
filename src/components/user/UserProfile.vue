@@ -2,7 +2,7 @@
     <div class="card container mx-auto px-4 max-w-2xl mt-4">
         <div v-if="data">
         <div class="px-6 py-4">
-            {{ data.username }}
+            {{ data.username }} <span v-if="authStore.isAdmin == true">ADMIN</span>
         </div>        
          <div class="px-6 py-4 whitespace-nowrap">
             <h3>Vos Publications:  </h3>
