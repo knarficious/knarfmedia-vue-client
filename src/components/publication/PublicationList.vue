@@ -45,7 +45,7 @@
       </div>
       </div>
       <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-        <article v-for="post in items" :key="post.id" class="flex max-w-xl flex-col rounded overflow-hidden shadow-lg items-start justify-between">
+        <article v-for="post in items" :key="post.id" class="flex max-w-xl flex-col rounded overflow-hidden shadow-lg items-center justify-between">
           <div class="flex items-center gap-x-4 text-xs">
             <template v-if="router.hasRoute('TagShow')">
               <router-link
@@ -68,7 +68,6 @@
                 {{ tag }}
               </p>
             </template>
-            <time :datetime="post.publishedAt" class="text-gray-500">{{ formatDateTime(post.publishedAt) }}</time>
           </div>
           <div class="group relative">
             <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
@@ -93,7 +92,10 @@
                 <span class="absolute inset-0" />
             {{ post.author.username }}
           </router-link>
+          
             </template>
+
+            <time :datetime="post.publishedAt" class="text-gray-500 ml-3">{{ formatDateTime(post.publishedAt) }}</time>
               </p>
               <p class="text-gray-600">{{ post.author.role }}</p>
             </div>
