@@ -1,0 +1,25 @@
+networks:
+  web:
+    external: true
+
+services:
+  app:
+    image: node:lts-alpine
+    container_name: knarfmedia-client
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.analytics.rule=Host(`knarfmedia.jaurinformatique.fr`)"
+      - "traefik.http.routers.analytics.entrypoints=websecure"
+      - "traefik.http.routers.analytics.tls.certresolver=le-resolver"
+    networks:
+      - web
+    build:
+      context: ./
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules #empty mount to not overwrite node_modules
+    environment:
+      - NODE_ENV="production"
