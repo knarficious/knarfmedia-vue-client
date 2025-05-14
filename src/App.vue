@@ -12,15 +12,14 @@ document.onreadystatechange = function() {
 }
 
 const navigation = [
-  { name: "Home", to: "/", current: false },
   { name: "About", to: "/about", current: false },
-  { name: "Publications", to: "/publications", current: false },
   { name: "Tags", to: "/tags", current: false },
 ]
 
 </script>
 
 <template>
+  <div class="flex flex-col min-h-screen">
   <header>
   <div class="">
   <Disclosure as="nav" class="bg-slate-500" v-slot="{ open }">
@@ -37,7 +36,7 @@ const navigation = [
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <img class="h-8 w-auto" src="/logo.png" alt="Knarf Media" />
+            <a href="/"><img class="h-8 w-auto" src="/logo.png" alt="Knarf Media" /></a>
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
@@ -89,9 +88,64 @@ const navigation = [
     </DisclosurePanel>
   </Disclosure>
   </div>
-
+</header>
+<main class="flex-1">
   <RouterView />
-  </header>
+</main>
+  <footer class="bg-gray-500 text-white py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Logo & description -->
+        <div>
+          <h2 class="text-xl font-bold mb-4">Knarf Media</h2>
+          <p class="text-sm text-gray-400">
+            Le blog de Franck
+          </p>
+        </div>
+
+        <!-- Liens utiles -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Liens</h3>
+          <ul class="space-y-2">
+            <li><a href="/" class="text-gray-300 hover:text-white">Accueil</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Ressources -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Ressources</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-300 hover:text-white">Documentation</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white">API</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white">Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Réseaux sociaux -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Suivez-nous</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="mt-10 border-t border-gray-700 pt-6 text-center text-sm text-gray-500">
+        &copy; {{ new Date().getFullYear() }} Knarf Media. Tous droits réservés.
+      </div>
+    </div>
+  </footer>
+  </div>
 </template>
 
 <style scoped>

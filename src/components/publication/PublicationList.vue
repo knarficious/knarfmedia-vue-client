@@ -70,7 +70,7 @@
             </template>
           </div>
           <div class="group relative">
-            <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+            <h3 class="mt-3 ml-5 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
               <router-link
                 :to="{ name: 'PublicationShow', params: { id: post['@id'] } }"
                 class="px-6 py-2 bg-blue-600 text-white text-xs rounded shadow-md hover:bg-blue-700"
@@ -78,7 +78,7 @@
                 {{ post.title }}
               </router-link>
             </h3>
-            <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{{ post.summary }}</p>
+            <p class="mt-5 ml-5 line-clamp-3 text-sm leading-6 text-gray-600">{{ post.summary }}</p>
           </div>
           <div class="relative mt-8 flex items-center gap-x-4">
             <UserIcon class="h-6 w-6 rounded-full bg-gray-50" />

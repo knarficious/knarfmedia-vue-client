@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "engines": {
     "node": "18.x",
-    "npm": "10.4.x"
+    "npm": "10.7.x"
   },
   "private": true,
   "scripts": {
@@ -20,6 +20,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@headlessui/vue": "^1.7.16",
     "@heroicons/vue": "^2.0.18",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/qs": "^6.9.8",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "dayjs": "^1.11.9",
@@ -27,6 +28,8 @@
     "jwt-decode": "^3.1.2",
     "pinia": "^2.1.6",
     "qs": "^6.11.2",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
     "serve-static": "^1.15.0",
     "tldts": "^6.0.15",
     "typescript-cookie": "^1.0.6",
