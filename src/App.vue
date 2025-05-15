@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useUserAuthStore } from '@/stores/authenticator/auth'
 //import { useCookies } from 'vue3-cookies';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from '@heroicons/vue/24/outline'
 const useAuthStore = useUserAuthStore();
+const route = useRoute();
 //const {cookies} = useCookies();
 document.readyState === "complete";
 document.onreadystatechange = function() {
@@ -36,7 +37,7 @@ const navigation = [
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <a href="/"><img class="h-8 w-auto" src="/logo.png" alt="Knarf Media" /></a>
+            <RouterLink to="/"><img class="h-8 w-auto" src="/logo.png" alt="Knarf Media" /></RouterLink>
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
