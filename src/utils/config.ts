@@ -1,2 +1,2 @@
 export const ENTRYPOINT =
- "https://localhost/";
+ "https://https://api.knarfmedia.jaurinformatique.fr/";
