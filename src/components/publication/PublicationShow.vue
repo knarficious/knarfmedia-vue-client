@@ -31,7 +31,7 @@
         <!-- Image -->
         <!-- <img :src="image" alt="Image de l'article" class="w-full h-64 object-cover"> -->
         <div v-if="item.filePath">
-          <img class="w-48 md:w-96 lg:w-250" v-bind:src="baseUrl + '/media/' + item.filePath" alt=" item.filePath " />
+          <img class="w-48 md:w-96 lg:w-250" v-bind:src="baseUrl + item.filePath" alt=" item.filePath " />
         </div>
 
         <!-- Contenu -->
@@ -98,7 +98,7 @@ import { useUserAuthStore } from "@/stores/authenticator/auth";
 
 const route = useRoute();
 const router = useRouter();
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = "https://jaur-compartiment.s3.eu-north-1.amazonaws.com/uploads/";
 
 const publicationDeleteStore = usePublicationDeleteStore();
 const { error: deleteError, deleted } = storeToRefs(publicationDeleteStore);
