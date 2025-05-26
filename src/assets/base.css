@@ -71,3 +71,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.btn {
+  @apply px-3 py-1 border rounded bg-white text-gray-800 hover:bg-gray-100 transition min-w-[48px] text-center;
+}
+

@@ -16,7 +16,9 @@ const navigation = [
   { name: "About", to: "/about", current: false },
   { name: "Tags", to: "/tags", current: false },
 ]
-
+if (import.meta.env.VUE_APP_DEBUG === 'true') {
+  console.log('Debug mode');
+}
 </script>
 
 <template>
@@ -117,24 +119,25 @@ const navigation = [
         <div>
           <h3 class="text-lg font-semibold mb-4">Ressources</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="text-gray-300 hover:text-white">Documentation</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-white">API</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-white">Support</a></li>
+            <li><a href="https://api.knarfmedia.jaurinformatique.fr" target="_blank" class="text-gray-300 hover:text-white">API</a></li>
           </ul>
         </div>
 
         <!-- Réseaux sociaux -->
         <div>
-          <h3 class="text-lg font-semibold mb-4">Suivez-nous</h3>
+          <h3 class="text-lg font-semibold mb-4">Suivez-moi</h3>
           <div class="flex space-x-4">
             <a href="#" class="text-gray-400 hover:text-white">
-              <i class="fab fa-twitter"></i>
+              <font-awesome-icon :icon="['fab', 'twitter']" />
             </a>
             <a href="#" class="text-gray-400 hover:text-white">
-              <i class="fab fa-facebook"></i>
+              <font-awesome-icon icon="['fab', 'youtube']" id="youtube"/>
+            </a>
+            <a href="https://facebook.com/franckruer" target="_blank" class="text-gray-400 hover:text-white">
+              <font-awesome-icon icon="['fab', 'facebook-f']" id="facebook"/>
             </a>
             <a href="#" class="text-gray-400 hover:text-white">
-              <i class="fab fa-linkedin"></i>
+              <font-awesome-icon icon="['fab', 'linkedin']" id="linkedin"/>
             </a>
           </div>
         </div>

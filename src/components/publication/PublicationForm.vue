@@ -55,7 +55,7 @@
       >
         content
       </label>
-      <input
+      <TipTapEditor
         id="publication_content"
         v-model="item.content"
         :class="[
@@ -143,6 +143,7 @@ import type { SubmissionErrors } from "@/types/error";
 import VueMultiSelect from 'vue-multiselect';
 import { useTagListStore } from "@/stores/tag/_list";
 import { storeToRefs } from "pinia";
+import TipTapEditor from '@/components/TipTapEditor.vue'
 
 const useTagStore = useTagListStore();
 const { items } = storeToRefs(useTagStore);
