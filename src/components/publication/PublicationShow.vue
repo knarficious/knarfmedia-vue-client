@@ -30,8 +30,12 @@
       <article class="bg-white rounded-2xl shadow-md overflow-hidden max-w-3xl mx-auto mb-8 justify-center">
         <!-- Image -->
         <!-- <img :src="image" alt="Image de l'article" class="w-full h-64 object-cover"> -->
-        <div v-if="item.filePath">
-          <img class="w-48 md:w-96 lg:w-250" v-bind:src="baseUrl + item.filePath" alt=" item.filePath " />
+
+        <div v-if="item?.filePath">
+          <img v-if="isImage" class="w-48 md:w-96 lg:w-250" :src="baseUrl + item.filePath" :alt="item.filePath" />
+          <video v-else-if="isVideo" class="w-48 md:w-96 lg:w-250" :src="baseUrl + item.filePath" controls />
+          <audio v-else-if="isAudio" :src="baseUrl + item.filePath" controls />
+          <p v-else class="text-sm text-red-600">Fichier non pris en charge : {{ item.filePath }}</p>
         </div>
 
         <!-- Contenu -->
@@ -69,25 +73,25 @@
             </p>
           </template>
           <template v-for="comment in item.comments" :key="comment">
-                <div class="py-2">
-                  "{{ comment.content }}"
-                  <span class="px-2">par {{ comment.author.username }}</span>
-                  <span class="px-2">le {{ comment.publishedAt }}</span>
-                </div>
+            <div class="py-2">
+              "{{ comment.content }}"
+              <span class="px-2">par {{ comment.author.username }}</span>
+              <span class="px-2">le {{ comment.publishedAt }}</span>
+            </div>
 
-                <br />
-              </template>
+            <br />
+          </template>
         </div>
       </article>
       <router-link :to="{ name: 'PublicationList' }" class="text-blue-600 hover:text-blue-800 mb-8">
         &lt; Back to list
-      </router-link>  
+      </router-link>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount } from "vue";
+import { computed, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePublicationShowStore } from "@/stores/publication/show";
@@ -106,6 +110,23 @@ const { error: deleteError, deleted } = storeToRefs(publicationDeleteStore);
 const publicationShowStore = usePublicationShowStore();
 const { retrieved: item, isLoading, error } = storeToRefs(publicationShowStore);
 const useAuthStore = useUserAuthStore();
+
+const extension = computed(() => {
+  const path = item?.value?.filePath || ''
+  return path.split('.').pop()?.toLowerCase() || ''
+})
+
+const isImage = computed(() =>
+  ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(extension.value)
+)
+
+const isVideo = computed(() =>
+  ['mp4', 'webm', 'ogg', 'mov'].includes(extension.value)
+)
+
+const isAudio = computed(() =>
+  ['mp3', 'wav', 'ogg', 'aac'].includes(extension.value)
+)
 
 useMercureItem({
   store: publicationShowStore,
