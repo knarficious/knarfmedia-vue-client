@@ -1,16 +1,42 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 import { useUserAuthStore } from '@/stores/authenticator/auth'
 //import { useCookies } from 'vue3-cookies';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from '@heroicons/vue/24/outline'
+import { useHead } from '@vueuse/head'
 const useAuthStore = useUserAuthStore();
-const route = useRoute();
 //const {cookies} = useCookies();
 document.readyState === "complete";
 document.onreadystatechange = function() {
   useAuthStore.logout();
 }
+
+useHead({
+  title: 'Le blog de Franck',
+  meta: [
+    {
+      name: 'description',
+      content: 'Voici le blog de Franck aka Kifran aka LeKnarf aka Knarficious'
+    },
+    {
+      property: 'og:title',
+      content: 'Le blog de Franck'
+    },
+    {
+      property: 'og:description',
+      content: 'Voici le blog de Franck aka Kifran aka LeKnarf aka Knarficious'
+    },
+    {
+      property: 'og:url',
+      content: 'https://blog.jaurinformatique.fr'
+    },
+    {
+      property: 'og:image',
+      content: ''
+    }
+  ]
+})
 
 const navigation = [
   { name: "About", to: "/about", current: false },

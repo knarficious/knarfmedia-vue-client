@@ -3,6 +3,7 @@ import { extractHubURL } from "@/utils/mercure";
 import api from "@/utils/api";
 import type { Publication } from "@/types/publication";
 import type { ShowState } from "@/types/stores";
+import { useHead } from '@vueuse/head'
 
 interface State extends ShowState<Publication> {}
 

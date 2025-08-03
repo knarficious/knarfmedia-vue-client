@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeUnmount } from "vue";
+import { computed, onBeforeUnmount, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { usePublicationShowStore } from "@/stores/publication/show";
@@ -99,6 +99,7 @@ import { usePublicationDeleteStore } from "@/stores/publication/delete";
 import { formatDateTime } from "@/utils/date";
 import { useMercureItem } from "@/composables/mercureItem";
 import { useUserAuthStore } from "@/stores/authenticator/auth";
+import { useHead } from '@vueuse/head'
 
 const route = useRoute();
 const router = useRouter();
@@ -134,6 +135,7 @@ useMercureItem({
   redirectRouteName: "PublicationList",
 });
 
+
 await publicationShowStore.retrieve(decodeURIComponent(route.params.id as string));
 
 async function deleteItem() {
@@ -162,6 +164,37 @@ function pushToComment() {
   });
 
 }
+
+watch(
+  () => publicationShowStore.getPublication,
+  (publication) => {
+    if (!publication) return
+  
+
+    useHead({
+      title: publication.title,
+      meta: [
+        {
+          name: 'description',
+          content: publication.summary
+        },
+        {
+          property: 'og:title',
+          content: publication.title
+        },
+        {
+          property: 'og:description',
+          content: publication.summary
+        },
+        {
+          property: 'og:image',
+          content: baseUrl + publication.filePath
+        }
+      ]
+    })
+  },
+  { immediate: true }
+)
 
 onBeforeUnmount(() => {
   publicationShowStore.$reset();
