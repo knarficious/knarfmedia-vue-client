@@ -32,9 +32,9 @@
         <!-- <img :src="image" alt="Image de l'article" class="w-full h-64 object-cover"> -->
 
         <div v-if="item?.filePath">
-          <img v-if="isImage" class="w-48 md:w-96 lg:w-250" :src="baseUrl + item.filePath" :alt="item.filePath" />
-          <video v-else-if="isVideo" class="w-48 md:w-96 lg:w-250" :src="baseUrl + item.filePath" controls />
-          <audio v-else-if="isAudio" :src="baseUrl + item.filePath" controls />
+          <img v-if="isImage" class="w-48 md:w-96 lg:w-250" :src="awsUrl + item.filePath" :alt="item.filePath" />
+          <video v-else-if="isVideo" class="w-48 md:w-96 lg:w-250" :src="awsUrl + item.filePath" controls />
+          <audio v-else-if="isAudio" :src="awsUrl + item.filePath" controls />
           <p v-else class="text-sm text-red-600">Fichier non pris en charge : {{ item.filePath }}</p>
         </div>
 
