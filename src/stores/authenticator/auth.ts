@@ -4,6 +4,7 @@ import type { User } from "@/types/user";
 import type { SubmissionErrors } from "@/types/error";
 import { SubmissionError } from "@/utils/error";
 import type { LoginState } from "@/types/stores";
+import { useRouter } from "vue-router";
 import { useCookies } from "vue3-cookies";
 import jwt_decode from "jwt-decode";
 
@@ -91,8 +92,9 @@ export const useUserAuthStore = defineStore("userAuth", {
             cookies.remove("jwt_hp");
             cookies.remove("jwt_s");
             this.setIsLoggedIn(false);
-            //alert("Vous êtes maintenant déconnecté");
-            location.reload();
+            alert("Vous êtes maintenant déconnecté");
+            const router = useRouter();
+            await router.push('/');
           }
           }  
   

@@ -2,7 +2,7 @@
     <Suspense>
       <Show />
   
-      <template #fallback>Loading...</template>
+      <template #fallback>Chargement...</template>
     </Suspense>
   </template>
   

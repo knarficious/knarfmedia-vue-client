@@ -2,7 +2,7 @@
   <div class="p-4">
     <div class="flex items-center justify-between">
       <h1 class="text-3xl my-4">Tag List</h1>
-
+      <div v-if="useAuthStore.isLoggedIn === true">
       <router-link
         :to="{ name: 'TagCreate' }"
         class="px-6 py-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700"
@@ -10,13 +10,14 @@
         Create
       </router-link>
     </div>
+    </div>
 
     <div
       v-if="isLoading"
       class="bg-blue-100 rounded py-4 px-4 text-blue-700 text-sm"
       role="status"
     >
-      Loading...
+      Chargement...
     </div>
 
     <div
@@ -178,6 +179,7 @@
 import { onBeforeUnmount, watch } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
+import { useUserAuthStore } from "@/stores/authenticator/auth";
 import { useTagDeleteStore } from "@/stores/tag/delete";
 import { useTagListStore } from "@/stores/tag/list";
 import { useMercureList } from "@/composables/mercureList";
@@ -187,7 +189,7 @@ const route = useRoute();
 const tagDeleteStore = useTagDeleteStore();
 const { deleted: deletedItem, mercureDeleted: mercureDeletedItem } =
   storeToRefs(tagDeleteStore);
-
+const useAuthStore = useUserAuthStore();
 const tagListStore = useTagListStore();
 const { items, error, view, isLoading } = storeToRefs(tagListStore);
 

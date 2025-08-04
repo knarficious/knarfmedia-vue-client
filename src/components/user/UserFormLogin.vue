@@ -30,7 +30,7 @@
         for="Login_password"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        password
+        mot de passe
       </label>
       <input
         id="Login_password"
@@ -53,7 +53,7 @@
       type="submit"
       class="px-6 py-2 bg-green-500 text-white font-medium rounded shadow-md hover:bg-green-600"
     >
-      Submit
+      Soumettre
     </button>
   </form>
 </template>

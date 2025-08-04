@@ -7,7 +7,7 @@
       class="bg-blue-100 rounded py-4 px-4 text-blue-700 text-sm"
       role="status"
     >
-      Loading...
+      Chargement...
     </div>
     <div
       v-if="error"

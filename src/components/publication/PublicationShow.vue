@@ -84,7 +84,7 @@
         </div>
       </article>
       <router-link :to="{ name: 'PublicationList' }" class="text-blue-600 hover:text-blue-800 mb-8">
-        &lt; Back to list
+        &lt; Retour
       </router-link>
     </div>
   </div>
