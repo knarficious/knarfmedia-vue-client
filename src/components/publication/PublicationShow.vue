@@ -103,7 +103,8 @@ import { useHead } from '@vueuse/head'
 
 const route = useRoute();
 const router = useRouter();
-const baseUrl = "https://jaur-compartiment.s3.eu-north-1.amazonaws.com/uploads/";
+const awsUrl = "https://jaur-compartiment.s3.eu-north-1.amazonaws.com/uploads/";
+const baseUrl = "https://blog.jaurinformatique.fr/publications/";
 
 const publicationDeleteStore = usePublicationDeleteStore();
 const { error: deleteError, deleted } = storeToRefs(publicationDeleteStore);
@@ -173,6 +174,12 @@ watch(
 
     useHead({
       title: publication.title,
+      link: [
+        {
+          rel: 'canonical',
+          href: computed(() => baseUrl + publication.title?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''))
+        }
+      ],
       meta: [
         {
           name: 'description',
@@ -188,7 +195,11 @@ watch(
         },
         {
           property: 'og:image',
-          content: baseUrl + publication.filePath
+          content: awsUrl + publication.filePath
+        },
+        {
+          property: 'og:url',
+          content: computed(() => baseUrl + publication.title?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''))
         }
       ]
     })

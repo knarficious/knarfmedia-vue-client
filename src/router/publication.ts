@@ -6,19 +6,19 @@ export default [
   },
   {
     name: "PublicationCreate",
-    path: "/create",
+    path: "/creer",
     component: () => import("@/views/publication/ViewCreate.vue"),
     meta: { requiresAuth: true }
   },
   {
     name: "PublicationUpdate",
-    path: "/edit/:id",
+    path: "/modifier/:id",
     component: () => import("@/views/publication/ViewUpdate.vue"),
     meta: { requiresAuth: true }
   },
   {
     name: "PublicationShow",
-    path: "/show/:id",
+    path: "/publications/:id",
     component: () => import("@/views/publication/ViewShow.vue"),
   },
   {
