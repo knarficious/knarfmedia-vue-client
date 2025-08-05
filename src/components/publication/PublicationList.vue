@@ -31,18 +31,18 @@
     </div>  
   <div class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl lg:mx-0 flex items-center justify-between">
+      <div class="mx-auto max-w-2xl lg:mx-0 flex flex-wrap items-center justify-between">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Publications</h2>
         <p class="mt-2 text-lg leading-8 text-gray-600">Retouvez les dernières publications.</p>
 
-      <div v-if="useAuthStore.isLoggedIn === true">
+      <span v-if="useAuthStore.isLoggedIn === true" class="py-3">
       <router-link
         :to="{ name: 'PublicationCreate' }"
-        class="px-6 py-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700"
+        class="px-6 py-3 bg-green-500 font-medium rounded text-white shadow-md hover:bg-green-600"
       >
         Publier
       </router-link>
-      </div>
+    </span>
       </div>
       <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
         <article v-for="post in items" :key="post.id" class="flex max-w-xl flex-col rounded overflow-hidden shadow-lg items-center justify-between">
@@ -73,7 +73,7 @@
             <h3 class="mt-3 ml-5 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
               <router-link
                 :to="{ name: 'PublicationShow', params: { id: post['@id'] } }"
-                class="px-6 py-2 bg-blue-600 text-white text-xs rounded shadow-md hover:bg-blue-700"
+                class="px-6 py-2 bg-blue-600 text-white text-lg rounded shadow-md hover:bg-blue-700"
               >
                 {{ post.title }}
               </router-link>

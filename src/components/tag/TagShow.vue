@@ -5,22 +5,22 @@
         :to="{ name: 'TagList' }"
         class="text-blue-600 hover:text-blue-800"
       >
-        &lt; Back to list
+        &lt; retour à la liste
       </router-link>
 
-      <div>
+      <div v-if="useAuthStore.isLoggedIn === true">
         <router-link
           v-if="item"
           :to="{ name: 'TagUpdate', params: { id: item['@id'] } }"
-          class="px-6 py-2 mr-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700"
+          class="px-6 py-2 mr-2 bg-green-600 text-white text-sm rounded shadow-md hover:bg-green-700"
         >
-          Edit
+          Modifier
         </router-link>
         <button
-          class="px-6 py-2 bg-red-600 text-white text-xs rounded shadow-md hover:bg-red-700"
+          class="px-6 py-2 bg-red-600 text-white text-sm rounded shadow-md hover:bg-red-700"
           @click="deleteItem"
         >
-          Delete
+          Supprimer
         </button>
       </div>
     </div>
@@ -110,6 +110,7 @@ import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useTagShowStore } from "@/stores/tag/show";
 import { useTagDeleteStore } from "@/stores/tag/delete";
+import { useUserAuthStore } from "@/stores/authenticator/auth";
 import { useMercureItem } from "@/composables/mercureItem";
 
 const route = useRoute();
@@ -117,7 +118,7 @@ const router = useRouter();
 
 const tagDeleteStore = useTagDeleteStore();
 const { error: deleteError, deleted } = storeToRefs(tagDeleteStore);
-
+const useAuthStore = useUserAuthStore();
 const tagShowStore = useTagShowStore();
 const { retrieved: item, isLoading, error } = storeToRefs(tagShowStore);
 

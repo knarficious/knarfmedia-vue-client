@@ -5,13 +5,13 @@
       <div v-if="useAuthStore.getIsLoggedIn === true && item?.author.username === useAuthStore.retrieved?.username">
         <router-link v-if="item" :to="{ name: 'PublicationUpdate', params: { id: item['@id'] } }"
           class="px-6 py-2 mr-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700">
-          Edit
+          Modifier
 
         </router-link>
       </div>
       <div v-if="useAuthStore.getIsAdmin === true">
         <button class="px-6 py-2 bg-red-600 text-white text-xs rounded shadow-md hover:bg-red-700" @click="deleteItem">
-          Delete
+          Supprimer
         </button>
       </div>
     </div>
@@ -19,7 +19,7 @@
     <!-- <h1 class="text-3xl my-4">Show Publication {{ item?.["@id"] }}</h1> -->
 
     <div v-if="isLoading" class="bg-blue-100 rounded py-4 px-4 text-blue-700 text-sm" role="status">
-      Loading...
+      Chargement...
     </div>
 
     <div v-if="error || deleteError" class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm" role="alert">

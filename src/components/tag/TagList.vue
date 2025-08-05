@@ -1,13 +1,13 @@
 <template>
   <div class="p-4">
-    <div class="flex items-center justify-between">
-      <h1 class="text-3xl my-4">Tag List</h1>
+    <div class="flex items-center justify-center gap-3">
+      <h1 class="text-3xl my-4">Catégories</h1>
       <div v-if="useAuthStore.isLoggedIn === true">
       <router-link
         :to="{ name: 'TagCreate' }"
         class="px-6 py-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700"
       >
-        Create
+        Créer
       </router-link>
     </div>
     </div>
@@ -41,61 +41,14 @@
       </template>
     </div>
 
-    <div class="overflow-x-auto">
-      <table class="min-w-full">
-        <thead class="border-b">
-          <tr>
-            <th
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-            >
-              id
-            </th>
-            <th
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-            >
-            name
-            </th>
-            <th
-              colspan="2"
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-            >
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in items" :key="item['@id']" class="border-b">
-            <td class="px-6 py-4 text-sm">
-              <router-link
-                v-if="item"
-                :to="{ name: 'TagShow', params: { id: item['@id'] } }"
-                class="text-blue-600 hover:text-blue-800"
-              >
-                {{ item["@id"] }}
-              </router-link>
-            </td>
-            <td class="px-6 py-4 text-sm">
-            {{ item.name }}
-            </td>
-            <td class="px-6 py-4 text-sm">
-              <router-link
-                :to="{ name: 'TagShow', params: { id: item['@id'] } }"
-                class="px-6 py-2 bg-blue-600 text-white text-xs rounded shadow-md hover:bg-blue-700"
-              >
-                Show
-              </router-link>
-            </td>
-            <td class="px-6 py-4 text-sm">
-              <router-link
-                :to="{ name: 'TagUpdate', params: { id: item['@id'] } }"
-                class="px-6 py-2 bg-green-600 text-white text-xs rounded shadow-md hover:bg-green-700"
-              >
-                Edit
-              </router-link>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="flex flex-wrap gap-2 p-4 justify-center">
+      <span v-for="item in items" :key="item['@id']" 
+      class="px-3 py-1 rounded-full text-sm font-medium text-white"
+      :class="getRandomBgColor()">
+      <router-link :to="{ name: 'TagShow', params: { id: item['@id'] } }" class="px-6 py-2 text-white text-sm rounded shadow-md">
+      {{ item.name }}
+      </router-link>
+      </span>  
     </div>
 
     <div v-if="view" class="flex justify-center">
@@ -207,4 +160,21 @@ watch(
 onBeforeUnmount(() => {
   tagDeleteStore.$reset();
 });
+
+// Array of Tailwind background color classes
+const bgColors = [
+  'bg-blue-500',
+  'bg-green-500',
+  'bg-red-500',
+  'bg-purple-500',
+  'bg-indigo-500',
+  'bg-pink-500',
+  'bg-teal-500',
+  'bg-orange-500',
+];
+
+// Function to get random background color
+const getRandomBgColor = () => {
+  return bgColors[Math.floor(Math.random() * bgColors.length)];
+};
 </script>
