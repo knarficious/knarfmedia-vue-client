@@ -77,7 +77,7 @@
         </div>
       </article>
       <template v-if="useAuthStore.getIsLoggedIn === true">
-        <router-link :to="{ name: 'PublicationComment', params: { id: item['@id'] } }" :key="item['@id']" class="px-3">Commenter</router-link>
+        <router-link :to="{ name: 'PublicationComment', params: { id: item['@id'] } }" :key="item['@id']" class="px-3 ">Commenter</router-link>
       </template>
       <template v-for="comment in item.comments" :key="comment">
         <div class="py-2">

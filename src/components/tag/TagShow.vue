@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 max-w-2xl mt-4">
+  <div class="container mx-auto px-4 mt-4">
     <div class="flex items-center justify-between">
       <router-link
         :to="{ name: 'TagList' }"
