@@ -45,7 +45,7 @@
       <span v-for="item in items" :key="item['@id']" 
       class="px-3 py-1 rounded-full text-sm font-medium text-white"
       :class="getRandomBgColor()">
-      <router-link :to="{ name: 'TagShow', params: { id: item['@id'] } }" class="px-6 py-2 text-white text-sm rounded shadow-md">
+      <router-link :to="{ name: 'TagShow', params: { id: item['@id'] } }" class="px-6 py-2 text-white text-sm">
       {{ item.name }}
       </router-link>
       </span>  

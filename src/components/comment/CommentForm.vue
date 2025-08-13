@@ -5,7 +5,7 @@
         for="comment_content"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        content
+        Commentaire
       </label>
       <input
         id="comment_content"
@@ -29,7 +29,7 @@
       type="submit"
       class="px-6 py-2 bg-green-500 text-white font-medium rounded shadow-md hover:bg-green-600"
     >
-      Submit
+      Enregistrer
     </button>
   </form>
 </template>

@@ -3,9 +3,9 @@
     <div class="flex items-center justify-between">
       <router-link
         :to="{ name: 'TagList' }"
-        class="text-blue-600 hover:text-blue-800"
+        class="px-3 bg-blue-600 text-white text-sm rounded shadow-md hover:bg-blue-700"
       >
-        &lt; retour à la liste
+        retour à la liste
       </router-link>
 
       <div v-if="useAuthStore.isLoggedIn === true">
@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <h1 class="text-3xl my-4">Show Tag {{ item?.["@id"] }}</h1>
+    <h1 class="text-3xl my-4">Catégorie: {{ item?.name }}</h1>
 
     <div
       v-if="isLoading"
@@ -44,62 +44,45 @@
     </div>
 
     <div v-if="item" class="overflow-x-auto">
-      <table class="min-w-full">
-        <thead class="border-b">
-          <tr>
-            <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
-              Field
-            </th>
-            <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
-              Value
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b">
-            <th
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-              scope="row"
-            >
-              name
-            </th>
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
-            {{ item.name }}
-                        </td>
-          </tr>
-          <tr class="border-b">
-            <th
-              class="text-sm font-medium px-6 py-4 text-left capitalize"
-              scope="row"
-            >
-            publications
-          </th>
-          <td class="px-6 py-4 whitespace-nowrap text-sm">
-            <template v-if="router.hasRoute('PublicationShow')">
+            <div class="mx-auto my-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+              <template v-if="router.hasRoute('PublicationShow')">
+        <article v-for="publication in item.publications" :key="publication.id" class="flex max-w-xl flex-col rounded overflow-hidden shadow-lg items-center justify-between">
+          <div class="flex items-center gap-x-4 text-xs">
+          </div>
+          <div class="group relative">
+            <h3 class="mt-3 ml-5 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
               <router-link
-                v-for="publication in item.publications"
                 :to="{ name: 'PublicationShow', params: { id: publication['@id'] } }"
-                :key="publication"
-                class="text-blue-600 hover:text-blue-800"
+                class="px-6 py-2 bg-blue-600 text-white text-lg rounded shadow-md hover:bg-blue-700"
               >
                 {{ publication.title }}
-
-                <br />
               </router-link>
+            </h3>
+            <p class="mt-5 ml-5 line-clamp-3 text-sm leading-6 text-gray-600">{{ publication.summary }}</p>
+          </div>
+          <div class="relative mt-8 flex items-center gap-x-4">
+            <UserIcon class="h-6 w-6 rounded-full bg-gray-50" />
+            <div class="text-sm leading-6">
+              <p class="font-semibold text-gray-900">
+                <template v-if="router.hasRoute('UserShow')">
+              <router-link
+                :to="{ name: 'UserShow', params: { id: publication.author['@id']} }"
+                :key="publication.author['@id']"
+                >
+                <span class="absolute inset-0" />
+            {{ publication.author.username }}
+          </router-link>
+          
             </template>
 
-            <template v-else>
-              <p
-                v-for="publication in item.publications"
-                :key="publication"
-              >
-                {{ publication.title }}
+            <time :datetime="publication.publishedAt" class="text-gray-500 ml-3">{{ formatDateTime(publication.publishedAt) }}</time>
               </p>
-            </template>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <p class="text-gray-600">{{ publication.author.role }}</p>
+            </div>
+          </div>
+        </article>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -112,6 +95,8 @@ import { useTagShowStore } from "@/stores/tag/show";
 import { useTagDeleteStore } from "@/stores/tag/delete";
 import { useUserAuthStore } from "@/stores/authenticator/auth";
 import { useMercureItem } from "@/composables/mercureItem";
+import { formatDateTime } from "@/utils/date";
+import { UserIcon } from "@heroicons/vue/24/outline";
 
 const route = useRoute();
 const router = useRouter();

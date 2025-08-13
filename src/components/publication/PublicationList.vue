@@ -33,7 +33,7 @@
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-2xl lg:mx-0 flex flex-wrap items-center justify-between">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Publications</h2>
-        <p class="mt-2 text-lg leading-8 text-gray-600">Retouvez les dernières publications.</p>
+        <p class="mt-2 text-lg leading-8 text-gray-600">Retrouvez les dernières publications.</p>
 
       <span v-if="useAuthStore.isLoggedIn === true" class="py-3">
       <router-link

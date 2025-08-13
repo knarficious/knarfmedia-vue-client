@@ -40,7 +40,7 @@ useHead({
 
 const navigation = [
   { name: "À propos", to: "/about", current: false },
-  { name: "Tags", to: "/tags", current: false },
+  { name: "Catégories", to: "/tags", current: false },
 ]
 if (import.meta.env.VUE_APP_DEBUG === 'true') {
   console.log('Debug mode');
@@ -112,7 +112,7 @@ if (import.meta.env.VUE_APP_DEBUG === 'true') {
 
     <DisclosurePanel class="sm:hidden">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <DisclosureButton v-for="item in navigation" :key="item.name" as="RouterLink" :href="item.to" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</DisclosureButton>
+        <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.to" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</DisclosureButton>
       </div>
     </DisclosurePanel>
   </Disclosure>
@@ -136,8 +136,16 @@ if (import.meta.env.VUE_APP_DEBUG === 'true') {
         <div>
           <h3 class="text-lg font-semibold mb-4">Liens</h3>
           <ul class="space-y-2">
-            <li><a href="/" class="text-gray-300 hover:text-white">Accueil</a></li>
-            <li><a href="#" class="text-gray-300 hover:text-white">Contact</a></li>
+            <li>
+              <router-link :to="{ name: 'PublicationList' }" class="text-gray-300 hover:text-white">
+                Accueil
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'TagList' }" class="text-gray-300 hover:text-white">
+                Catégories
+              </router-link>
+            </li>
           </ul>
         </div>
 
@@ -153,24 +161,24 @@ if (import.meta.env.VUE_APP_DEBUG === 'true') {
         <div>
           <h3 class="text-lg font-semibold mb-4">Suivez-moi</h3>
           <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white">
+            <a href="https://x.com/KifranLeKnarf" class="text-gray-400 hover:text-white">
               <font-awesome-icon :icon="['fab', 'twitter']" />
             </a>
-            <a href="#" class="text-gray-400 hover:text-white">
-              <font-awesome-icon icon="['fab', 'youtube']" id="youtube"/>
+            <a href="https://www.youtube.com/@kifran6632" class="text-gray-400 hover:text-white">
+              <font-awesome-icon :icon="['fab', 'youtube']" id="youtube"/>
             </a>
             <a href="https://facebook.com/franckruer" target="_blank" class="text-gray-400 hover:text-white">
-              <font-awesome-icon icon="['fab', 'facebook-f']" id="facebook"/>
+              <font-awesome-icon :icon="['fab', 'facebook-f']" id="facebook"/>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white">
-              <font-awesome-icon icon="['fab', 'linkedin']" id="linkedin"/>
+            <a href="https://www.linkedin.com/in/franckruer/" class="text-gray-400 hover:text-white">
+              <font-awesome-icon :icon="['fab', 'linkedin']" id="linkedin"/>
             </a>
           </div>
         </div>
       </div>
 
       <!-- Copyright -->
-      <div class="mt-10 border-t border-gray-700 pt-6 text-center text-sm text-gray-500">
+      <div class="mt-10 border-t border-gray-700 pt-6 text-center text-sm text-white-500">
         &copy; {{ new Date().getFullYear() }} Knarf Media. Tous droits réservés.
       </div>
     </div>

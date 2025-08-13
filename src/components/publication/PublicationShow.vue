@@ -72,20 +72,26 @@
               {{ tag.name }}
             </p>
           </template>
-          <template v-for="comment in item.comments" :key="comment">
-            <div class="py-2">
-              "{{ comment.content }}"
-              <span class="px-2">par {{ comment.author.username }}</span>
-              <span class="px-2">le {{ comment.publishedAt }}</span>
-            </div>
+          
 
-            <br />
-          </template>
         </div>
       </article>
-      <router-link :to="{ name: 'PublicationList' }" class="text-blue-600 hover:text-blue-800 mb-8">
-        &lt; Retour
-      </router-link>
+      <template v-if="useAuthStore.getIsLoggedIn === true">
+        <router-link :to="{ name: 'PublicationComment', params: { id: item['@id'] } }" :key="item['@id']" class="px-3">Commenter</router-link>
+      </template>
+      <template v-for="comment in item.comments" :key="comment">
+        <div class="py-2">
+          "{{ comment.content }}"
+          <span class="px-2">par {{ comment.author.username }}</span>
+          <span class="px-2">le {{ comment.publishedAt }}</span>
+        </div>
+
+        <br />
+      </template>
+      <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><router-link :to="{ name: 'PublicationList' }" class="">
+        Retour
+      </router-link></button>
+      
     </div>
   </div>
 </template>
