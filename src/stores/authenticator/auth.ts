@@ -18,12 +18,14 @@ export const useUserAuthStore = defineStore("userAuth", {
     isLoading: false,
     error: undefined,
     violations: undefined,
+    isVerified: false,
     isAdmin: false,
     }),
   getters: {
     getIsLoggedIn: (state) => state.isLoggedIn,
     getUser: (state) => state.retrieved,
-    getIsAdmin: (state) => state.isAdmin
+    getIsAdmin: (state) => state.isAdmin,
+    getIsVerified: (state) => state.isVerified
   },
   actions: {
     async login(payload: User) {
@@ -39,7 +41,6 @@ export const useUserAuthStore = defineStore("userAuth", {
         if (response.status === 204 && cookies.isKey("jwt_hp")) {
 
           this.toggleLoading();
-          this.setIsLoggedIn(true);
 
           const jwt = cookies.get("jwt_hp");
 
@@ -55,8 +56,15 @@ export const useUserAuthStore = defineStore("userAuth", {
             const response = await api("users/" + id);
             const data: User = await response.json();
             this.setRetrieved(data);
+            if (data.isVerified == false) {
+              alert("Vous devez valider votre email pour pouvoir vous connecter !");
+              this.toggleLoading();
+            }
   
-            alert("Vous êtes correctement authentifié ;-) " + data.username);
+            else {
+              alert("Vous êtes correctement authentifié ;-) " + data.username);
+              this.setIsLoggedIn(true);
+            } 
           } 
           catch (error) {
             this.toggleLoading();

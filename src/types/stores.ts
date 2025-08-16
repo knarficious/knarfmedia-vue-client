@@ -7,7 +7,8 @@ export interface LoginState<T> {
   isLoading: boolean;
   error?: string;
   violations?: SubmissionErrors;
-  isAdmin?: boolean
+  isAdmin?: boolean;
+  isVerified?: boolean;
 }
 
 export interface CreateState<T> {
