@@ -1,6 +1,7 @@
 import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import Notifications from 'notiwind'
 import App from './App.vue'
 import router from './router'
 import { createHead } from '@vueuse/head'
@@ -34,6 +35,7 @@ const head = createHead()
 app.use(createPinia())
 app.use(head)
 app.use(router)
+app.use(Notifications)
 router.beforeEach((to) => {
     const auth = useUserAuthStore();
 

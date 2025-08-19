@@ -7,6 +7,7 @@ import type { LoginState } from "@/types/stores";
 import { useRouter } from "vue-router";
 import { useCookies } from "vue3-cookies";
 import jwt_decode from "jwt-decode";
+import { notify } from 'notiwind';
 
 const {cookies} = useCookies();
 interface State extends LoginState<User> {}
@@ -58,11 +59,20 @@ export const useUserAuthStore = defineStore("userAuth", {
             this.setRetrieved(data);
             if (data.isVerified == false) {
               alert("Vous devez valider votre email pour pouvoir vous connecter !");
+              
               this.toggleLoading();
             }
   
             else {
-              alert("Vous êtes correctement authentifié ;-) " + data.username);
+              //alert("Vous êtes correctement authentifié ;-) " + data.username);
+              notify(
+                {
+                  group: 'foo',
+                  title: 'Succès',
+                  text: 'Vous êtes correctement authentifié ;-)'+ data.username,
+                },
+                4000,
+              ) // 4s
               this.setIsLoggedIn(true);
             } 
           } 
@@ -100,7 +110,14 @@ export const useUserAuthStore = defineStore("userAuth", {
             cookies.remove("jwt_hp");
             cookies.remove("jwt_s");
             this.setIsLoggedIn(false);
-            alert("Vous êtes maintenant déconnecté");
+            notify(
+                {
+                  group: 'foo',
+                  title: 'Success',
+                  text: 'Vous êtes maintenant déconnecté',
+                },
+                4000,
+              ) // 4s
             const router = useRouter();
             await router.push('/');
           }
