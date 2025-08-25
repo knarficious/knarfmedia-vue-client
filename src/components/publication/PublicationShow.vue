@@ -196,6 +196,10 @@ watch(
           content: publication.title
         },
         {
+          property: 'og:type',
+          content: 'website'
+        },
+        {
           property: 'og:description',
           content: publication.summary
         },
@@ -206,6 +210,22 @@ watch(
         {
           property: 'og:url',
           content: computed(() => baseUrl + publication.title?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''))
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image'
+        },
+        {
+          name: 'twitter:title',
+          content: publication.title
+        },
+        {
+          name: 'twitter:description',
+          content: publication.summary
+        },
+        {
+          name: 'twitter:image',
+          content: awsUrl + publication.filePath
         }
       ]
     })
