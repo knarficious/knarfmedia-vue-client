@@ -24,16 +24,20 @@ useHead({
       content: 'Le blog de Franck'
     },
     {
+      property: 'og:type',
+      content: 'website'
+    },
+    {
       property: 'og:description',
       content: 'Voici le blog de Franck aka Kifran aka LeKnarf aka Knarficious'
     },
     {
       property: 'og:url',
-      content: 'https://blog.jaurinformatique.fr'
+      content: 'https://blog.franckruer.fr'
     },
     {
       property: 'og:image',
-      content: ''
+      content: 'https://blog.franckruer/logo.png'
     }
   ]
 })
