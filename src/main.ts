@@ -42,8 +42,13 @@ router.beforeEach((to) => {
     if (to.meta.requiresAuth && auth.isLoggedIn === false && !cookies.isKey('jwt_hp')) return '/login'
 })
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.mount('#app')
 
-if (typeof document !== 'undefined') {
+router.isReady().then(() => {
+  app.mount('#app')
+
+  if (typeof document !== 'undefined') {
   document.dispatchEvent(new Event('render-event'))
 }
+});
+
+
