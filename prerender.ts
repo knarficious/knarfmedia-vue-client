@@ -4,7 +4,7 @@ import { createSSRApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createHead } from '@vueuse/head'
 import App from './src/App.vue'
-import router from './src/router'
+import { createMyRouter } from './src/router'
 
 import Notifications from 'notiwind'
 import { library, type IconPack } from '@fortawesome/fontawesome-svg-core'
@@ -32,6 +32,7 @@ export async function prerender({ route }: { route: string }) {
   const app = createSSRApp(App)
   const pinia = createPinia()
   const head = createHead()
+  const router = createMyRouter()
 
   app.use(pinia)
   app.use(head)
