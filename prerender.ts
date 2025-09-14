@@ -1,6 +1,6 @@
 import router from "./src/router";
 
-export default () => {
+export const prerender = () => {
   // on renvoie simplement les chemins à prerender
   return router.getRoutes().map((r) => r.path);
 
