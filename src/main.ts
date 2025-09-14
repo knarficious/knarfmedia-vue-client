@@ -1,54 +1,46 @@
+// main.ts
 import './assets/main.css'
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import Notifications from 'notiwind'
+import { ViteSSG } from 'vite-ssg'
 import App from './App.vue'
 import router from './router'
+import { createPinia } from 'pinia'
+import Notifications from 'notiwind'
 import { createHead } from '@vueuse/head'
 
-
-/* import the fontawesome core */
+/* FontAwesome */
 import { library, type IconPack } from '@fortawesome/fontawesome-svg-core'
-
-/* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-/* import specific icons */
 import { fas } from '@fortawesome/free-solid-svg-icons'
-// Icônes de marque
 import { faFacebookF, faTwitter, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 
-import { useUserAuthStore } from './stores/authenticator/auth'
+library.add(fas as IconPack, faFacebookF, faTwitter, faLinkedin, faYoutube)
 
-import { useCookies } from 'vue3-cookies'
-const {cookies} = useCookies();
+// ✅ ViteSSG wrapper
+export const createApp = ViteSSG(
+  App,
+  { routes: router.getRoutes() },
+  ({ app, router, isClient, initialState }) => {
+    const pinia = createPinia()
+    const head = createHead()
 
-/* add icons to the library */
-library.add(fas as IconPack)
-library.add(faFacebookF)
-library.add(faTwitter)
-library.add(faLinkedin)
-library.add(faYoutube)
+    app.use(pinia)
+    app.use(router)
+    app.use(head)
+    app.use(Notifications)
 
-const app = createApp(App)
-const head = createHead()
-app.use(createPinia())
-app.use(head)
-app.use(router)
-app.use(Notifications)
-router.beforeEach((to) => {
-    const auth = useUserAuthStore();
+    app.component('font-awesome-icon', FontAwesomeIcon)
 
-    if (to.meta.requiresAuth && auth.isLoggedIn === false && !cookies.isKey('jwt_hp')) return '/login'
-})
-app.component('font-awesome-icon', FontAwesomeIcon)
-
-router.isReady().then(() => {
-  app.mount('#app')
-
-  if (typeof document !== 'undefined') {
-  document.dispatchEvent(new Event('render-event'))
-}
-});
-
-
+    // router.beforeEach uniquement côté client
+    if (isClient) {
+      import('./stores/authenticator/auth').then(({ useUserAuthStore }) => {
+        router.beforeEach((to) => {
+          const auth = useUserAuthStore()
+          const cookiesKey = 'jwt_hp'
+          if (to.meta.requiresAuth && auth.isLoggedIn === false && document.cookie.includes(cookiesKey) === false) {
+            return '/login'
+          }
+        })
+      })
+    }
+  }
+)

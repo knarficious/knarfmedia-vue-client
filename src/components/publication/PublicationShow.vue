@@ -142,8 +142,11 @@ useMercureItem({
   redirectRouteName: "PublicationList",
 });
 
+const isClient = typeof window !== 'undefined'
 
-await publicationShowStore.retrieve(decodeURIComponent(route.params.id as string));
+if (isClient) {
+  await publicationShowStore.retrieve(decodeURIComponent(route.params.id as string));
+}
 
 async function deleteItem() {
   if (!item?.value) {
@@ -151,7 +154,7 @@ async function deleteItem() {
     return;
   }
 
-  if (window.confirm("Are you sure you want to delete this publication?")) {
+  if ( isClient && window.confirm("Are you sure you want to delete this publication?")) {
     await publicationDeleteStore.deleteItem(item.value);
 
     if (deleted) {
@@ -161,6 +164,8 @@ async function deleteItem() {
 }
 
 function pushToComment() {
+
+  if (!isClient) return;
 
   const id = publicationShowStore.getPublication?.id;
   localStorage.setItem("publicationId", JSON.stringify(id));
