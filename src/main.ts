@@ -35,7 +35,7 @@ export function createMyApp() {
   app.component('font-awesome-icon', FontAwesomeIcon)
 
   /* Auth route guard */
-  router.beforeEach((to) => {
+  router.beforeEach((to: any) => {
     const auth = useUserAuthStore()
     if (to.meta.requiresAuth && auth.isLoggedIn === false && !cookies.isKey('jwt_hp')) {
       return '/login'
