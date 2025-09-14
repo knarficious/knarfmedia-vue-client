@@ -1,5 +1,5 @@
 import './assets/main.css'
-import { createApp } from 'vue'
+import { ViteSSG } from 'vite-ssg'
 import { createPinia } from 'pinia'
 import Notifications from 'notiwind'
 import { createHead } from '@vueuse/head'
@@ -15,43 +15,36 @@ import { faFacebookF, faTwitter, faYoutube, faLinkedin } from '@fortawesome/free
 /* Stores */
 import { useUserAuthStore } from './stores/authenticator/auth'
 import { useCookies } from 'vue3-cookies'
-const { cookies } = useCookies()
 
 /* Add icons to the library */
 library.add(fas as IconPack)
 library.add(faFacebookF, faTwitter, faLinkedin, faYoutube)
 
-/* Création de l'app */
-export function createMyApp() {
-  const app = createApp(App)
-  const pinia = createPinia()
-  const head = createHead()
-  const router = createMyRouter()
+export const createApp = ViteSSG(
+  App,
+  { routes: createMyRouter().getRoutes() },
+  ({ app, router }) => {
+    const pinia = createPinia()
+    const head = createHead()
+    const { cookies } = useCookies()
 
-  app.use(pinia)
-  app.use(head)
-  app.use(router)
-  app.use(Notifications)
-  app.component('font-awesome-icon', FontAwesomeIcon)
+    app.use(pinia)
+    app.use(head)
+    app.use(router)
+    app.use(Notifications)
+    app.component('font-awesome-icon', FontAwesomeIcon)
 
-  /* Auth route guard */
-  router.beforeEach((to: any) => {
-    const auth = useUserAuthStore()
-    if (to.meta.requiresAuth && auth.isLoggedIn === false && !cookies.isKey('jwt_hp')) {
-      return '/login'
+    // Auth route guard (s'exécute uniquement côté client)
+    if (!import.meta.env.SSR) {
+      router.beforeEach((to: any) => {
+        const auth = useUserAuthStore()
+        if (to.meta.requiresAuth && auth.isLoggedIn === false && !cookies.isKey('jwt_hp')) {
+          return '/login'
+        }
+      })
+
+      // Event pour prerender ou tests
+      document.dispatchEvent(new Event('render-event'))
     }
-  })
-
-  return { app, router }
-}
-
-/* Montage classique côté client */
-if (typeof window !== 'undefined') {
-  const { app, router } = createMyApp()
-  router.isReady().then(() => {
-    app.mount('#app')
-
-    /* Event pour prerender ou tests */
-    document.dispatchEvent(new Event('render-event'))
-  })
-}
+  }
+)

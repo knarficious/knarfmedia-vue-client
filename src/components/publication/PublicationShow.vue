@@ -110,7 +110,7 @@ import { useHead } from '@vueuse/head'
 const route = useRoute();
 const router = useRouter();
 const awsUrl = "https://jaur-compartiment.s3.eu-north-1.amazonaws.com/uploads/";
-const baseUrl = "https://blog.jaurinformatique.fr/publications/";
+const baseUrl = "https://blog.franckruer.fr/publications/";
 
 const publicationDeleteStore = usePublicationDeleteStore();
 const { error: deleteError, deleted } = storeToRefs(publicationDeleteStore);
