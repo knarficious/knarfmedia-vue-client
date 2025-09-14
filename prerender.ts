@@ -1,13 +1,17 @@
 import router from "./src/router";
 
-export const prerender = () => {
-  // on renvoie simplement les chemins à prerender
-  return router.getRoutes().map((r) => r.path);
+import { createSSRApp } from 'vue';
+import { renderToString } from 'vue/server-renderer';
+import App from './src/App.vue';
 
-  // ⚠️ si tu as des routes dynamiques (ex: /publications/:id),
-  // tu peux ici fetch ton API Platform pour construire la liste finale
-  // Exemple:
-  // const res = await fetch("https://api.example.com/publications");
-  // const data = await res.json();
-  // return data["hydra:member"].map((p: any) => `/publications/${p.id}`);
+export const prerender = async () => {
+  const app = createSSRApp(App);
+  app.use(router);
+
+  // attendre que le router soit prêt
+  await router.push('/');
+  await router.isReady();
+
+  const html = await renderToString(app);
+  return ['/'].map(() => html); // retourne un tableau de routes
 };
