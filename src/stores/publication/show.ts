@@ -59,5 +59,9 @@ export const usePublicationShowStore = defineStore("publicationShow", {
     setError(error: string) {
       this.error = error;
     },
+
+    setPublicationSSR(publication: Publication) {
+      this.retrieved = publication;
+    },
   },
 });
