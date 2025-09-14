@@ -43,3 +43,7 @@ router.beforeEach((to) => {
 })
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
+
+if (typeof document !== 'undefined') {
+  document.dispatchEvent(new Event('render-event'))
+}
