@@ -14,11 +14,6 @@ export function createMyRouter() {
 
   const routes: RouteRecordRaw[] = [
     {
-      path: '/',
-      name: 'home',
-      component: HomeView
-    },
-    {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')

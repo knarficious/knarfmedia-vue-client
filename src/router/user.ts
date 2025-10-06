@@ -7,7 +7,7 @@ export default [
   },
   {
     name: "UserCreate",
-    path: "/register",
+    path: "/creer-compte",
     component: () => import("@/views/user/ViewCreate.vue"),
   },
   {

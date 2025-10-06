@@ -102,7 +102,7 @@ if (import.meta.env.VUE_APP_DEBUG === 'true') {
                   <RouterLink to="/login" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Se connecter</RouterLink>
                 </MenuItem>
                 <MenuItem v-if="useAuthStore.isLoggedIn === false" v-slot="{ active }">
-                  <RouterLink to="/register" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">S'enregistrer</RouterLink>
+                  <RouterLink to="/creer-compte" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">S'enregistrer</RouterLink>
                 </MenuItem>
                 <MenuItem v-if="useAuthStore.isLoggedIn === true" v-slot="{ active }">
                   <RouterLink to="/logout" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Se déconnecter</RouterLink>
