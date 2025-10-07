@@ -195,7 +195,7 @@ if (import.meta.env.VUE_APP_DEBUG === 'true') {
         <div>
           <h3 class="text-lg font-semibold mb-4">Ressources</h3>
           <ul class="space-y-2">
-            <li><a href="https://api.knarfmedia.jaurinformatique.fr" target="_blank" class="text-gray-300 hover:text-white">API</a></li>
+            <li><a href="https://api.knarfmedia.franckruer.fr" target="_blank" class="text-gray-300 hover:text-white">API</a></li>
           </ul>
         </div>
 
