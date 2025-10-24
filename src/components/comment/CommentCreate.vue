@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4 max-w-2xl mt-4">
     <router-link
-      :to="{ name: 'PublicationShow', params: { id: path} }"
+      :to="{ name: 'PublicationShow', params: { id: route.params.id} }"
       class="text-blue-600 hover:text-blue-800"
     >
       &lt; Back to Publication
@@ -51,7 +51,7 @@ async function create(item: Comment) {
 
   router.push({
     name: "PublicationShow",
-    params: { id: path },
+    params: { id: publicationId },
   });
 }
 
