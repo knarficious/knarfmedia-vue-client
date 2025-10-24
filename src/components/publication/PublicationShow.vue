@@ -26,12 +26,12 @@
       {{ error || deleteError }}
     </div>
 
-    <div v-if="item" class="overflow-x-auto">
-      <article class="bg-white rounded-2xl shadow-md overflow-hidden max-w-3xl mx-auto mb-8 justify-center">
+    <div v-if="item" class="flex flex-col overflow-x-auto">
+      <article class="bg-zinc-100 rounded-2xl shadow-md overflow-hidden max-w-3xl mx-auto mt-3 mb-8 justify-center">
         <!-- Image -->
         <!-- <img :src="image" alt="Image de l'article" class="w-full h-64 object-cover"> -->
 
-        <div v-if="item?.filePath">
+        <div class="flex justify-center" v-if="item?.filePath">
           <img v-if="isImage" class="w-48 md:w-96 lg:w-250" :src="awsUrl + item.filePath" :alt="item.filePath" />
           <video v-else-if="isVideo" class="w-48 md:w-96 lg:w-250" :src="awsUrl + item.filePath" controls />
           <audio v-else-if="isAudio" :src="awsUrl + item.filePath" controls />
@@ -80,7 +80,7 @@
         <router-link :to="{ name: 'PublicationComment', params: { id: item['@id'] } }" :key="item['@id']" class="px-3 ">Commenter</router-link>
       </template>
       <template v-for="comment in item.comments" :key="comment">
-        <div class="py-2">
+        <div class="px-3 py-2 bg-sky-100">
           "{{ comment.content }}"
           <span class="px-2">par {{ comment.author.username }}</span>
           <span class="px-2">le {{ formatDateTime(comment.publishedAt) }}</span>
@@ -88,10 +88,15 @@
 
         <br />
       </template>
-      <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><router-link :to="{ name: 'PublicationList' }" class="">
-        Retour
-      </router-link></button>
+
       
+    </div>
+    <div class="flex flex-col overflow-x-auto items-center">
+      <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded text-md px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+        <router-link :to="{ name: 'PublicationList' }">
+        Retour
+      </router-link>
+    </button>
     </div>
   </div>
 </template>
@@ -110,7 +115,7 @@ import { useHead } from '@vueuse/head'
 const route = useRoute();
 const router = useRouter();
 const awsUrl = "https://jaur-compartiment.s3.eu-north-1.amazonaws.com/uploads/";
-const baseUrl = "https://blog.jaurinformatique.fr/publications/";
+const baseUrl = "https://blog.franckruer.fr/publications/";
 
 const publicationDeleteStore = usePublicationDeleteStore();
 const { error: deleteError, deleted } = storeToRefs(publicationDeleteStore);
@@ -155,7 +160,7 @@ async function deleteItem() {
     return;
   }
 
-  if (window.confirm("Are you sure you want to delete this publication?")) {
+  if ( isClient && window.confirm("Are you sure you want to delete this publication?")) {
     await publicationDeleteStore.deleteItem(item.value);
 
     if (deleted) {

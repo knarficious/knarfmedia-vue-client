@@ -1,31 +1,34 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createMemoryHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+
 // Import routes
-import publicationRoutes from '@/router/publication';
-import userRoutes from '@/router/user';
-import commentRoutes from '@/router/comment';
-import tagRoutes from '@/router/tag';
-import authRoute from '@/router/authenticator';
+import publicationRoutes from '@/router/publication'
+import userRoutes from '@/router/user'
+import commentRoutes from '@/router/comment'
+import tagRoutes from '@/router/tag'
+import authRoute from '@/router/authenticator'
 
+export function createMyRouter() {
+  // Utilise createWebHistory côté client, createMemoryHistory côté SSR
+  const history = import.meta.env.SSR ? createMemoryHistory() : createWebHistory(import.meta.env.BASE_URL)
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
+  const routes: RouteRecordRaw[] = [
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
-        
     ...publicationRoutes,
     ...userRoutes,
     ...commentRoutes,
     ...tagRoutes,
     ...authRoute
   ]
-})
 
-export default router
+  const router = createRouter({
+    history,
+    routes
+  })
+
+  return router
+}
