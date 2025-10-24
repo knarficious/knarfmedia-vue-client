@@ -44,6 +44,7 @@
     "serve-static": "^1.15.0",
     "tldts": "^6.0.15",
     "typescript-cookie": "^1.0.6",
+    "vite-ssg": "^28.2.2",
     "vue": "^3.3.4",
     "vue-multiselect": "^3.0.0-beta.2",
     "vue-router": "^4.2.4",

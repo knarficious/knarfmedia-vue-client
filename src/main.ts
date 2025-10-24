@@ -1,47 +1,50 @@
 import './assets/main.css'
-import { createApp } from 'vue'
+import { ViteSSG } from 'vite-ssg'
 import { createPinia } from 'pinia'
 import Notifications from 'notiwind'
+import { createHead } from '@vueuse/head'
 import App from './App.vue'
-import router from './router'
-import { createHead } from '@unhead/vue/client'
-// import { renderSSRHead } from '@unhead/ssr'
+import { createMyRouter } from './router'
 
-
-/* import the fontawesome core */
+/* FontAwesome */
 import { library, type IconPack } from '@fortawesome/fontawesome-svg-core'
-
-/* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-/* import specific icons */
 import { fas } from '@fortawesome/free-solid-svg-icons'
-// Icônes de marque
 import { faFacebookF, faTwitter, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 
+/* Stores */
 import { useUserAuthStore } from './stores/authenticator/auth'
-
 import { useCookies } from 'vue3-cookies'
-const {cookies} = useCookies();
 
-/* add icons to the library */
+/* Add icons to the library */
 library.add(fas as IconPack)
-library.add(faFacebookF)
-library.add(faTwitter)
-library.add(faLinkedin)
-library.add(faYoutube)
+library.add(faFacebookF, faTwitter, faLinkedin, faYoutube)
 
-const app = createApp(App)
-const head = createHead()
-// const payload = await renderSSRHead(head)
-app.use(createPinia())
-app.use(head)
-app.use(router)
-app.use(Notifications)
-router.beforeEach((to) => {
-    const auth = useUserAuthStore();
+export const createApp = ViteSSG(
+  App,
+  { routes: createMyRouter().getRoutes() },
+  ({ app, router }) => {
+    const pinia = createPinia()
+    const head = createHead()
+    const { cookies } = useCookies()
 
-    if (to.meta.requiresAuth && auth.isLoggedIn === false && !cookies.isKey('jwt_hp')) return '/login'
-})
-app.component('font-awesome-icon', FontAwesomeIcon)
-app.mount('#app')
+    app.use(pinia)
+    app.use(head)
+    app.use(router)
+    app.use(Notifications)
+    app.component('font-awesome-icon', FontAwesomeIcon)
+
+    // Auth route guard (s'exécute uniquement côté client)
+    if (!import.meta.env.SSR) {
+      router.beforeEach((to: any) => {
+        const auth = useUserAuthStore()
+        if (to.meta.requiresAuth && auth.isLoggedIn === false && !cookies.isKey('jwt_hp')) {
+          return '/login'
+        }
+      })
+
+      // Event pour prerender ou tests
+      document.dispatchEvent(new Event('render-event'))
+    }
+  }
+)
