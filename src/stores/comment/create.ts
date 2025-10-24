@@ -13,8 +13,8 @@ export const useCommentCreateStore = defineStore("commentCreate", {
   state: (): State => ({ 
     publication: undefined,   
     created: undefined,
-    isLoading: false,
-    error: undefined,
+    chargement: false,
+    erreur: undefined,
     violations: undefined,
     
   }),
@@ -30,11 +30,20 @@ export const useCommentCreateStore = defineStore("commentCreate", {
       try {
         // retrieve publication id from LocalStorage        
         const publicationId = localStorage.getItem("publicationId");
+        if (!publicationId) {
+          this.setError("Publication ID missing");
+          this.toggleLoading();
+          return;
+        }
 
-        const response = await api("publications/" + publicationId + "/commenter", {
-          method: "POST",
-          body: JSON.stringify(payload),
-        });
+        const url = `${publicationId}/commenter`;
+const response = await api(url, {
+  method: "POST",
+  body: JSON.stringify(payload),
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
         const data: Comment = await response.json();
 
         this.toggleLoading();
@@ -61,11 +70,11 @@ export const useCommentCreateStore = defineStore("commentCreate", {
     },
 
     toggleLoading() {
-      this.isLoading = !this.isLoading;
+      this.chargement = !this.chargement;
     },
 
     setError(error: string) {
-      this.error = error;
+      this.erreur = error;
     },
 
     setViolations(violations: SubmissionErrors) {

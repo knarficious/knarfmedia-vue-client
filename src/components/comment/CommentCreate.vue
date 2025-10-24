@@ -10,18 +10,18 @@
     <h1 class="text-3xl my-4">Create Comment</h1>
 
     <div
-      v-if="isLoading"
+      v-if="chargement"
       class="bg-blue-100 rounded py-4 px-4 text-blue-700 text-sm"
       role="status"
     >
       Loading...
     </div>
     <div
-      v-if="error"
+      v-if="erreur"
       class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm"
       role="alert"
     >
-      {{ error }}
+      {{ erreur }}
     </div>
 
     <Form :errors="violations" @submit="create" />
@@ -38,19 +38,20 @@ import type { Comment } from "@/types/comment";
 
 const router = useRouter();
 const route = useRoute();
-const path = route.path.slice(0,15);
+const path = route.redirectedFrom;
 
 const commentCreateStore = useCommentCreateStore();
-const { isLoading, error, violations } = storeToRefs(commentCreateStore);
+const { chargement, erreur, violations } = storeToRefs(commentCreateStore);
 
 async function create(item: Comment) {
+  const publicationId = route.params.id;
   await commentCreateStore.create(item);
 
   if (!commentCreateStore.created) return;
 
   router.push({
-    name: "CommentShow",
-    params: { id: commentCreateStore.created["@id"] },
+    name: "PublicationShow",
+    params: { id: path },
   });
 }
 

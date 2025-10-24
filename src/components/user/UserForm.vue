@@ -5,7 +5,7 @@
         for="user_username"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        username
+        Nom d'utilisateur
       </label>
       <input
         id="user_username"
@@ -55,7 +55,7 @@
         for="user_plainPassword"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        Password
+        Mot de passe
       </label>
       <input
         id="user_plainPassword"
@@ -80,7 +80,7 @@
       type="submit"
       class="px-6 py-2 bg-green-500 text-white font-medium rounded shadow-md hover:bg-green-600"
     >
-      Submit
+      Enregistrer
     </button>
   </form>
 </template>

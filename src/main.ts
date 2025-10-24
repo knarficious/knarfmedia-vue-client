@@ -4,7 +4,8 @@ import { createPinia } from 'pinia'
 import Notifications from 'notiwind'
 import App from './App.vue'
 import router from './router'
-import { createHead } from '@vueuse/head'
+import { createHead } from '@unhead/vue/client'
+// import { renderSSRHead } from '@unhead/ssr'
 
 
 /* import the fontawesome core */
@@ -32,6 +33,7 @@ library.add(faYoutube)
 
 const app = createApp(App)
 const head = createHead()
+// const payload = await renderSSRHead(head)
 app.use(createPinia())
 app.use(head)
 app.use(router)

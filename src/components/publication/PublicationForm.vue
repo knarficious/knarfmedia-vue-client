@@ -5,7 +5,7 @@
         for="publication_title"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        title
+        Titre
       </label>
       <input
         id="publication_title"
@@ -29,7 +29,7 @@
         for="publication_summary"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        summary
+        Résumé
       </label>
       <input
         id="publication_summary"
@@ -53,7 +53,7 @@
         for="publication_content"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        content
+        Contenu
       </label>
       <TipTapEditor
         id="publication_content"
@@ -77,7 +77,7 @@
         for="publication_tags"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        tags
+        Tags
       </label>
       <VueMultiSelect
       v-model="item.tags"
@@ -105,7 +105,7 @@
         for="publication_file"
         class="text-gray-700 block text-sm font-bold capitalize"
       >
-        file
+        Fichier
       </label>
       <input
         id="publication_file"
@@ -130,7 +130,7 @@
       type="submit"
       class="px-6 py-2 bg-green-500 text-white font-medium rounded shadow-md hover:bg-green-600"
     >
-      Submit
+      Enregistrer
     </button>
   </form>
 </template>

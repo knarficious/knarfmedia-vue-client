@@ -21,8 +21,8 @@ export interface CreateState<T> {
 export interface CommentPublicationState<T> {
   publication: any;
   created?: T;
-  isLoading: boolean;
-  error?: string;
+  chargement: boolean;
+  erreur?: string;
   violations?: SubmissionErrors;
 }
 

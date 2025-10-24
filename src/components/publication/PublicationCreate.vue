@@ -4,10 +4,10 @@
       :to="{ name: 'PublicationList' }"
       class="text-blue-600 hover:text-blue-800"
     >
-      &lt; Back to list
+      &lt; Retour à la liste
     </router-link>
 
-    <h1 class="text-3xl my-4">Create Publication</h1>
+    <h1 class="text-3xl my-4">Créer une publication</h1>
 
     <div
       v-if="isLoading"

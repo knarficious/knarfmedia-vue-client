@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4 max-w-2xl mt-4">
 
-    <h1 class="text-3xl my-4">Register</h1>
+    <h1 class="text-3xl my-4">S'enregistrer</h1>
 
     <div
       v-if="isLoading"

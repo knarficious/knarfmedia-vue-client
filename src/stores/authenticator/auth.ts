@@ -81,6 +81,18 @@ export const useUserAuthStore = defineStore("userAuth", {
           }
 
         }
+
+        else if (response.status === 401) {
+          notify(
+            {
+              group: 'foo',
+              title: 'Échec',
+              text: 'Identifiants incorrects ',
+              type: 'error'
+            }
+          )
+
+        }
         
         else alert("Il y a un souci :-(");
         this.toggleLoading();
@@ -113,13 +125,14 @@ export const useUserAuthStore = defineStore("userAuth", {
             notify(
                 {
                   group: 'foo',
-                  title: 'Success',
+                  title: 'À bientôt',
                   text: 'Vous êtes maintenant déconnecté',
                 },
                 4000,
               ) // 4s
             const router = useRouter();
             await router.push('/');
+            window.location.reload();
           }
           }  
   
@@ -127,6 +140,29 @@ export const useUserAuthStore = defineStore("userAuth", {
           console.log(error);
         }
       } 
+
+    },
+
+    async refresh() {
+      try {
+        const response = await api("token/refresh", { method: "POST" });
+
+        if (response.ok && cookies.isKey("jwt_hp")) {
+          const jwt = cookies.get("jwt_hp")!;
+          const decoded: any = jwt_decode(jwt);
+          const id = decoded.id;
+
+          const resUser = await api("users/" + id);
+          const data: User = await resUser.json();
+          this.setRetrieved(data);
+          this.setIsLoggedIn(true);
+        } else {
+          await this.logout(); // refresh échoué → logout
+        }
+      } catch (error) {
+        console.error(error);
+        await this.logout();
+      }
 
     },
     

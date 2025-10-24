@@ -10,9 +10,6 @@ const router = useRouter();
 const useAuthStore = useUserAuthStore();
 
 useAuthStore.logout();
-router.push({
-    name: "home"
-})
 onBeforeUnmount(() => {
   useAuthStore.$reset();
 });

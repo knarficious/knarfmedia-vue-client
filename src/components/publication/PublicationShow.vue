@@ -83,7 +83,7 @@
         <div class="py-2">
           "{{ comment.content }}"
           <span class="px-2">par {{ comment.author.username }}</span>
-          <span class="px-2">le {{ comment.publishedAt }}</span>
+          <span class="px-2">le {{ formatDateTime(comment.publishedAt) }}</span>
         </div>
 
         <br />
@@ -142,8 +142,12 @@ useMercureItem({
   redirectRouteName: "PublicationList",
 });
 
+const isClient = typeof window !== 'undefined'
 
-await publicationShowStore.retrieve(decodeURIComponent(route.params.id as string));
+if (isClient) {
+  await publicationShowStore.retrieve(decodeURIComponent(route.params.id as string));
+  localStorage.setItem('publicationId', route.params.id as string);
+}
 
 async function deleteItem() {
   if (!item?.value) {
@@ -162,6 +166,8 @@ async function deleteItem() {
 
 function pushToComment() {
 
+  if (!isClient) return;
+
   const id = publicationShowStore.getPublication?.id;
   localStorage.setItem("publicationId", JSON.stringify(id));
 
@@ -176,7 +182,7 @@ watch(
   () => publicationShowStore.getPublication,
   (publication) => {
     if (!publication) return
-  
+    
 
     useHead({
       title: publication.title,
