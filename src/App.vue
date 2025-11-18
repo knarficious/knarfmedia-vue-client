@@ -4,7 +4,7 @@ import { useUserAuthStore } from '@/stores/authenticator/auth'
 //import { useCookies } from 'vue3-cookies';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from '@heroicons/vue/24/outline'
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 const useAuthStore = useUserAuthStore();
 //const {cookies} = useCookies();
 document.readyState === "complete";
@@ -43,7 +43,6 @@ useHead({
 })
 
 const navigation = [
-  { name: "À propos", to: "/about", current: false },
   { name: "Catégories", to: "/tags", current: false },
 ]
 if (import.meta.env.VUE_APP_DEBUG === 'true') {
@@ -102,7 +101,7 @@ if (import.meta.env.VUE_APP_DEBUG === 'true') {
                   <RouterLink to="/login" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Se connecter</RouterLink>
                 </MenuItem>
                 <MenuItem v-if="useAuthStore.isLoggedIn === false" v-slot="{ active }">
-                  <RouterLink to="/creer-compte" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">S'enregistrer</RouterLink>
+                  <RouterLink to="/register" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">S'enregistrer</RouterLink>
                 </MenuItem>
                 <MenuItem v-if="useAuthStore.isLoggedIn === true" v-slot="{ active }">
                   <RouterLink to="/logout" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Se déconnecter</RouterLink>
@@ -195,7 +194,7 @@ if (import.meta.env.VUE_APP_DEBUG === 'true') {
         <div>
           <h3 class="text-lg font-semibold mb-4">Ressources</h3>
           <ul class="space-y-2">
-            <li><a href="https://api.knarfmedia.franckruer.fr" target="_blank" class="text-gray-300 hover:text-white">API</a></li>
+            <li><a href="https://api.knarfmedia.jaurinformatique.fr" target="_blank" class="text-gray-300 hover:text-white">API</a></li>
           </ul>
         </div>
 

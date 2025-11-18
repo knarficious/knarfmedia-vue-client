@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, createMemoryHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import NotFound from '@/components/NotFound.vue'
 
 // Import routes
 import publicationRoutes from '@/router/publication'
@@ -14,9 +15,9 @@ export function createMyRouter() {
 
   const routes: RouteRecordRaw[] = [
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
     },
     ...publicationRoutes,
     ...userRoutes,
