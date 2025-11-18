@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory, createMemoryHistory, type RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import NotFound from '@/components/NotFound.vue'
+import NotFound from '@/views/NotFound.vue'
 
 // Import routes
 import publicationRoutes from '@/router/publication'

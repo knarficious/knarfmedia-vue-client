@@ -1,7 +1,3 @@
-<script setup>
-// Pas besoin de logique particulière
-</script>
-
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center text-center p-6">
     <h1 class="text-6xl font-bold text-gray-800 mb-4">404</h1>
