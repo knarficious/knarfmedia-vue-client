@@ -44,7 +44,7 @@ async function login(item: User) {
   if (!useAuthStore.isLoggedIn) return;
 
   router.push({
-    name: "profile",
+    name: "mon-compte",
   })
 }
 
