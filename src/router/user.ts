@@ -23,8 +23,8 @@ export default [
     meta: { requiresAuth: true }
   },
   {
-    path: '/profile',
-    name: 'profile',
+    path: '/mon-compte',
+    name: 'mon-compte',
     component: () => import('@/views/user/ViewProfile.vue'),
     meta: { requiresAuth: true }
   },

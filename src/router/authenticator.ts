@@ -1,13 +1,13 @@
 export default [
     {
       name: "UserLogin",
-      path: "/login/",
+      path: "/connexion/",
       component: () => import("@/views/user/ViewLogin.vue"),
     },
 
     {
       name: "UserLogout",
-      path: "/logout/",
+      path: "/deconnexion/",
       component: () => import("@/components/authenticator/AuthenticatorLogout.vue")
     }
 
