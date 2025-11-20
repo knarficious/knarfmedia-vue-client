@@ -72,7 +72,7 @@ export const useUserAuthStore = defineStore("userAuth", {
                   text: 'Vous êtes correctement authentifié ;-)'+ data.username,
                 },
                 4000,
-              ) // 4s
+              ); // 4s
               this.setIsLoggedIn(true);
             } 
           } 
@@ -122,6 +122,9 @@ export const useUserAuthStore = defineStore("userAuth", {
             cookies.remove("jwt_hp");
             cookies.remove("jwt_s");
             this.setIsLoggedIn(false);
+            const router = useRouter();
+            await router.push('/');
+            window.location.reload();
             notify(
                 {
                   group: 'foo',
@@ -129,12 +132,9 @@ export const useUserAuthStore = defineStore("userAuth", {
                   text: 'Vous êtes maintenant déconnecté',
                 },
                 4000,
-              ) // 4s
-            const router = useRouter();
-            await router.push('/');
-            window.location.reload();
+              ); // 4s
           }
-          }  
+        }  
   
          catch (error) {
           console.log(error);
