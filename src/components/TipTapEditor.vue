@@ -80,8 +80,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onBeforeUnmount, defineProps, watch } from 'vue'
-import { Editor, EditorContent, useEditor } from '@tiptap/vue-3'
+import { onBeforeUnmount, watch } from 'vue'
+import { EditorContent, useEditor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
