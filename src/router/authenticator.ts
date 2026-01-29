@@ -10,10 +10,10 @@ export default [
   {
     name: 'UserLogout',
     path: '/deconnexion/',
-    beforeEnter: async () => {
+    redirect: () => {
       const auth = useUserAuthStore()
-      await auth.logout()
-      return '/'
+      auth.logout() // on appelle la fonction mais pas de await ici
+      return '/'      // on redirige vers la home
     }
   }
 ]
