@@ -4,7 +4,6 @@ import type { User } from "@/types/user";
 import type { SubmissionErrors } from "@/types/error";
 import { SubmissionError } from "@/utils/error";
 import type { LoginState } from "@/types/stores";
-import { useRouter } from "vue-router";
 import { useCookies } from "vue3-cookies";
 import jwt_decode from "jwt-decode";
 import { notify } from 'notiwind';
@@ -31,7 +30,6 @@ export const useUserAuthStore = defineStore("userAuth", {
   actions: {
     async login(payload: User) {
       this.setError("");
-      this.toggleLoading();
 
       try {
         const response = await api("auth", {
@@ -41,7 +39,7 @@ export const useUserAuthStore = defineStore("userAuth", {
 
         if (response.status === 204 && cookies.isKey("jwt_hp")) {
 
-          this.toggleLoading();
+          this.setLoading(true);
 
           const jwt = cookies.get("jwt_hp");
 
@@ -58,9 +56,8 @@ export const useUserAuthStore = defineStore("userAuth", {
             const data: User = await response.json();
             this.setRetrieved(data);
             if (data.isVerified == false) {
-              alert("Vous devez valider votre email pour pouvoir vous connecter !");
+              alert("Vous devez valider votre email pour pouvoir vous connecter !");              
               
-              this.toggleLoading();
             }
   
             else {
@@ -77,7 +74,9 @@ export const useUserAuthStore = defineStore("userAuth", {
             } 
           } 
           catch (error) {
-            this.toggleLoading();
+            ;
+          } finally {
+            this.setLoading(false);
           }
 
         }
@@ -95,10 +94,8 @@ export const useUserAuthStore = defineStore("userAuth", {
         }
         
         else alert("Il y a un souci :-(");
-        this.toggleLoading();
 
       } catch (error) {
-        this.toggleLoading();
 
         if (error instanceof SubmissionError) {
           this.setViolations(error.errors);
@@ -111,37 +108,35 @@ export const useUserAuthStore = defineStore("userAuth", {
         }
       }
     },
-    async logout() {
-      
-      if (this.getIsLoggedIn === true && cookies.isKey("jwt_hp")) {
-        try {
-         
-          const response = await api("token/invalidate");
-          if (response.status === 200) {
-            
-            cookies.remove("jwt_hp");
-            cookies.remove("jwt_s");
-            this.setIsLoggedIn(false);
-            const router = useRouter();
-            await router.push('/');
-            window.location.reload();
-            notify(
-                {
-                  group: 'foo',
-                  title: 'À bientôt',
-                  text: 'Vous êtes maintenant déconnecté',
-                },
-                4000,
-              ); // 4s
-          }
-        }  
-  
-         catch (error) {
-          console.log(error);
-        }
-      } 
+async logout() {
+  // Toujours nettoyer le frontend, même si l'API échoue
+  try {
+    if (cookies.isKey("jwt_hp")) {
+      await api("token/invalidate", { method: "POST" })
+    }
+  } catch (error) {
+    // On log, mais on n'empêche pas le logout
+    console.warn("Erreur lors de l'invalidation du token", error)
+  } finally {
+    // Nettoyage FRONT = source de vérité
+    cookies.remove("jwt_hp")
+    cookies.remove("jwt_s")
 
-    },
+    this.isLoggedIn = false
+    this.retrieved = undefined
+    this.isAdmin = false
+    this.isVerified = false
+
+    notify(
+      {
+        group: 'foo',
+        title: 'À bientôt',
+        text: 'Vous êtes maintenant déconnecté',
+      },
+      4000,
+    )
+  }
+},
 
     async refresh() {
       try {
@@ -161,18 +156,21 @@ export const useUserAuthStore = defineStore("userAuth", {
         }
       } catch (error) {
         console.error(error);
-        await this.logout();
+        
+    this.setIsLoggedIn(false);
       }
 
     },
     
-    setIsLoggedIn(status = false) {
-      this.isLoggedIn = status ? status : !this.isLoggedIn;
-    },
+setIsLoggedIn(status: boolean) {
+  this.isLoggedIn = status;
+},
 
-    toggleLoading() {
-      this.isLoading = !this.isLoading;
-    },
+
+
+setLoading(value: boolean) {
+  this.isLoading = value;
+},
 
     setError(error: string) {
       this.error = error;
