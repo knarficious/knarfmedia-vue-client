@@ -5,5 +5,7 @@ export interface Comment extends Item {
   publishedAt?: string;
   author?: object;
   post?: object | string;
+  parent?: object | string;
+  children?: any;
   id?: number
 }
