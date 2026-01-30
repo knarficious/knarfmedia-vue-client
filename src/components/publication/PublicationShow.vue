@@ -208,17 +208,6 @@ function pushToComment() {
   })
 }
 
-defineProps<{
-  item: any
-}>()
-
-// Filtrer uniquement les commentaires racines
-
-const topLevelComments = computed(() => {
-  if (!item?.value?.comments) return []
-  return item.value.comments.filter(comment => !comment.parent)
-})
-
 watch(
   () => publicationShowStore.getPublication,
   (publication) => {
