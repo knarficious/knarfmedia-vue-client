@@ -14,6 +14,13 @@
         >
           Modifier
         </router-link>
+        <router-link
+          v-if="item"
+          :to="{ name: 'PublicationFileUpdate', params: { id: item['@id'] } }"
+          class="px-6 py-2 mr-2 bg-green-700 text-white text-xs rounded shadow-md hover:bg-green-800"
+        >
+          Modifier le fichier
+        </router-link>
       </div>
       <div v-if="useAuthStore.getIsAdmin === true">
         <button

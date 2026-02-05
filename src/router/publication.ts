@@ -23,8 +23,14 @@ export default [
   },
   {
     name: "PublicationComment",
-    path: "/:id/commenter",
+    path: "/publications/:id/commenter",
     component: () => import("@/views/comment/ViewCreate.vue"),
     meta: { requiresAuth: true}
+  },
+  {
+    name: "PublicationFileUpdate",
+    path: "/publications/:id/fichier",
+    component: () => import("@/views/publication/ViewUpdateFile.vue"),
+    meta: { requiresAuth: true }
   }
 ];

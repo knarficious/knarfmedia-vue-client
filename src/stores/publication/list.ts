@@ -19,8 +19,8 @@ export const usePublicationListStore = defineStore("publicationList", {
 
   actions: {
     async getItems(page?: string) {
-      this.setError("");
-      this.toggleLoading();
+      this.error = undefined;
+      this.isLoading = true;
 
       try {
         const path = page ? `publications?page=${page}` : "publications";
@@ -28,21 +28,20 @@ export const usePublicationListStore = defineStore("publicationList", {
         const data: PagedCollection<Publication> = await response.json();
         const hubUrl = extractHubURL(response);
 
-        this.toggleLoading();
-
         this.setItems(data["hydra:member"]);
         this.setView(data["hydra:view"]);
 
         if (hubUrl) {
           this.setHubUrl(hubUrl);
         }
-      } catch (error) {
-        this.toggleLoading();
+      } catch (error) {        
 
         if (error instanceof Error) {
           this.setError(error.message);
         }
-      }
+      } finally {
+    this.isLoading = false;
+  }
     },
 
     toggleLoading() {
@@ -50,7 +49,10 @@ export const usePublicationListStore = defineStore("publicationList", {
     },
 
     setItems(items: Publication[]) {
-      this.items = items;
+      this.items = items.map(item => ({
+        ...item,
+        author: item.author || null
+      }));
     },
 
     setView(view: View) {

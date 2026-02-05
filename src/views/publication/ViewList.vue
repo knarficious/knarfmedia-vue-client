@@ -1,9 +1,5 @@
 <template>
-  <Suspense>
-    <List />
-
-    <template #fallback>Loading...</template>
-  </Suspense>
+    <List />    
 </template>
 
 <script setup lang="ts">

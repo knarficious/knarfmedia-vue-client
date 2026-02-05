@@ -1,19 +1,10 @@
 <template>
   <div class="">
-
-    <div
-      v-if="isLoading"
-      class="bg-blue-100 rounded py-4 px-4 text-blue-700 text-sm"
-      role="status"
-    >
+    <div v-if="isLoading" class="bg-blue-100 rounded py-4 px-4 text-blue-700 text-sm" role="status">
       Chargement...
     </div>
 
-    <div
-      v-if="error"
-      class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm"
-      role="alert"
-    >
+    <div v-if="error" class="bg-red-100 rounded py-4 px-4 my-2 text-red-700 text-sm" role="alert">
       {{ error }}
     </div>
 
@@ -22,100 +13,101 @@
       class="bg-green-100 rounded py-4 px-4 my-2 text-green-700 text-sm"
       role="status"
     >
-      <template v-if="deletedItem">
-        {{ deletedItem["@id"] }} deleted.
-      </template>
+      <template v-if="deletedItem"> {{ deletedItem['@id'] }} deleted. </template>
       <template v-else-if="mercureDeletedItem">
-        {{ mercureDeletedItem["@id"] }} deleted by another user.
+        {{ mercureDeletedItem['@id'] }} deleted by another user.
       </template>
-    </div>  
-  <div class="bg-white py-24 sm:py-32">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl lg:mx-0 flex flex-wrap items-center justify-between">
-        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Publications</h2>
-        <p class="mt-2 text-lg leading-8 text-gray-600">Retrouvez les dernières publications.</p>
+    </div>
+    <div class="bg-white py-24 sm:py-32">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl lg:mx-0 flex flex-wrap items-center justify-between">
+          <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Publications</h2>
+          <p class="mt-2 text-lg leading-8 text-gray-600">Retrouvez les dernières publications.</p>
 
-      <span v-if="useAuthStore.isLoggedIn === true" class="py-3">
-      <router-link
-        :to="{ name: 'PublicationCreate' }"
-        class="px-6 py-3 bg-green-500 font-medium rounded text-white shadow-md hover:bg-green-600"
-      >
-        Publier
-      </router-link>
-    </span>
-      </div>
-      <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-        <article v-for="post in items" :key="post.id" class="flex max-w-xl flex-col rounded overflow-hidden shadow-lg items-center justify-between">
-          <div class="flex items-center gap-x-4 text-xs">
-            <template v-if="router.hasRoute('TagShow')">
-              <router-link
-                v-for="tag in post.tags"
-                :to="{ name: 'TagShow', params: { id: tag['@id'] } }"
-                :key="tag"
-                class="text-blue-600 hover:text-blue-800"
-              >
-                {{ tag.name }}
-
-                <br />
-              </router-link>
-            </template>
-
-            <template v-else>
-              <p
-                v-for="tag in post.tags"
-                :key="tag"
-              >
-                {{ tag }}
-              </p>
-            </template>
-          </div>
-          <div class="group relative">
-            <h3 class="mt-3 ml-5 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-              <router-link
-                :to="{ name: 'PublicationShow', params: { id: post['@id'] } }"
-                class="px-6 py-2 bg-blue-600 text-white text-lg rounded shadow-md hover:bg-blue-700"
-              >
-                {{ post.title }}
-              </router-link>
-            </h3>
-            <p class="mt-5 ml-5 line-clamp-3 text-sm leading-6 text-gray-600">{{ post.summary }}</p>
-          </div>
-          <div class="relative mt-8 flex items-center gap-x-4">
-            <UserIcon class="h-6 w-6 rounded-full bg-gray-50" />
-            <div class="text-sm leading-6">
-              <p class="font-semibold text-gray-900">
-                <template v-if="router.hasRoute('UserShow')">
-              <router-link
-                :to="{ name: 'UserShow', params: { id: post.author['@id']} }"
-                :key="post.author['@id']"
+          <span v-if="useAuthStore.isLoggedIn === true" class="py-3">
+            <router-link
+              :to="{ name: 'PublicationCreate' }"
+              class="px-6 py-3 bg-green-500 font-medium rounded text-white shadow-md hover:bg-green-600"
+            >
+              Publier
+            </router-link>
+          </span>
+        </div>
+        <div
+          class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+        >
+          <article
+            v-for="post in items"
+            :key="post['@id']"
+            class="flex max-w-xl flex-col rounded overflow-hidden shadow-lg items-center justify-between"
+          >
+            <div class="flex items-center gap-x-4 text-xs">
+              <template v-if="router.hasRoute('TagShow')">
+                <router-link
+                  v-for="tag in post.tags"
+                  :to="{ name: 'TagShow', params: { id: tag['@id'] } }"
+                  :key="tag"
+                  class="text-blue-600 hover:text-blue-800"
                 >
-                <span class="absolute inset-0" />
-            {{ post.author.username }}
-          </router-link>
-          
-            </template>
+                  {{ tag.name }}
 
-            <time :datetime="post.publishedAt" class="text-gray-500 ml-3">{{ formatDateTime(post.publishedAt) }}</time>
-              </p>
-              <p class="text-gray-600">{{ post.author.role }}</p>
+                  <br />
+                </router-link>
+              </template>
+
+              <template v-else>
+                <p v-for="tag in post.tags" :key="tag">
+                  {{ tag }}
+                </p>
+              </template>
             </div>
-          </div>
-        </article>
+            <div class="group relative">
+              <h3
+                class="mt-3 ml-5 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
+              >
+                <router-link
+                  :to="{ name: 'PublicationShow', params: { id: post['@id'] } }"
+                  class="px-6 py-2 bg-blue-600 text-white text-lg rounded shadow-md hover:bg-blue-700"
+                >
+                  {{ post.title }}
+                </router-link>
+              </h3>
+              <p class="mt-5 ml-5 line-clamp-3 text-sm leading-6 text-gray-600">
+                {{ post.summary }}
+              </p>
+            </div>
+            <div class="relative mt-8 flex items-center gap-x-4">
+              <UserIcon class="h-6 w-6 rounded-full bg-gray-50" />
+              <div class="text-sm leading-6">
+                <p class="font-semibold text-gray-900">
+                  <template v-if="post.author && post.author['@id']">
+                    <router-link
+                      :to="{ name: 'UserShow', params: { id: post.author['@id'] } }"
+                      :key="post.author['@id']"
+                    >
+                      <span class="absolute inset-0" />
+                      {{ post.author.username }}
+                    </router-link>
+                  </template>
+
+                  <time :datetime="post.publishedAt" class="text-gray-500 ml-3">{{
+                    formatDateTime(post.publishedAt)
+                  }}</time>
+                </p>
+                <p class="text-gray-600">{{ post.author?.role }}</p>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
-  </div>
-
 
     <div v-if="view" class="flex justify-center">
       <nav aria-label="Page navigation">
         <ul class="flex list-style-none">
           <li :class="{ disabled: !view['hydra:previous'] }">
             <router-link
-              :to="
-                view['hydra:first']
-                  ? view['hydra:first']
-                  : { name: 'PublicationList' }
-              "
+              :to="view['hydra:first'] ? view['hydra:first'] : { name: 'PublicationList' }"
               aria-label="First page"
               :class="
                 !view['hydra:previous']
@@ -131,8 +123,7 @@
           <li :class="{ disabled: !view['hydra:previous'] }">
             <router-link
               :to="
-                !view['hydra:previous'] ||
-                view['hydra:previous'] === view['hydra:first']
+                !view['hydra:previous'] || view['hydra:previous'] === view['hydra:first']
                   ? { name: 'PublicationList' }
                   : view['hydra:previous']
               "
@@ -184,39 +175,44 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, watch } from "vue";
-import { useRoute } from "vue-router";
-import { useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-import { usePublicationDeleteStore } from "@/stores/publication/delete";
-import { usePublicationListStore } from "@/stores/publication/list";
-import { formatDateTime } from "@/utils/date";
-import { useMercureList } from "@/composables/mercureList";
-import { useUserAuthStore } from "@/stores/authenticator/auth";
-import { UserIcon } from "@heroicons/vue/24/outline";
+import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { usePublicationDeleteStore } from '@/stores/publication/delete'
+import { usePublicationListStore } from '@/stores/publication/list'
+import { formatDateTime } from '@/utils/date'
+import { useMercureList } from '@/composables/mercureList'
+import { useUserAuthStore } from '@/stores/authenticator/auth'
+import { UserIcon } from '@heroicons/vue/24/outline'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
-const publicationDeleteStore = usePublicationDeleteStore();
+const publicationDeleteStore = usePublicationDeleteStore()
 const { deleted: deletedItem, mercureDeleted: mercureDeletedItem } =
-  storeToRefs(publicationDeleteStore);
-const useAuthStore = useUserAuthStore();
-const publicationListStore = usePublicationListStore();
-const { items, error, view, isLoading } = storeToRefs(publicationListStore);
-
-useMercureList({ store: publicationListStore, deleteStore: publicationDeleteStore });
+  storeToRefs(publicationDeleteStore)
+const useAuthStore = useUserAuthStore()
+const publicationListStore = usePublicationListStore()
+const { items, error, view, isLoading } = storeToRefs(publicationListStore)
+useMercureList({ store: publicationListStore, deleteStore: publicationDeleteStore })
 
 watch(
   () => route.query.page,
   (newPage) => {
-    const page = newPage as string;
-    publicationListStore.getItems(page);
+    publicationListStore.getItems(
+      typeof newPage === "string" ? newPage : undefined
+    )
   },
   { immediate: true }
-);
+)
+
+
+onMounted(() => {
+  publicationListStore.getItems();
+})
 
 onBeforeUnmount(() => {
-  publicationDeleteStore.$reset();
-});
+  publicationDeleteStore.$reset()
+})
 </script>

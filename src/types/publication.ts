@@ -9,7 +9,7 @@ export interface Publication extends Item {
   comments?: any;
   author?: any;
   tags?: any;
-  file?: any;
+  file?: any,
   filePath?: any;
   id?: number
 }

@@ -49,7 +49,7 @@ export default async function api(id: string, options: any = {}, retry = true): 
 
   // 🧩 Étape 4 : Gérer les paramètres GET si présents
   if (options.params) {
-    const queryString = qs.stringify(options.params);
+    const queryString = qs.stringify(options.params, { skipNulls: true });
     id = `${id}?${queryString}`;
   }
 
@@ -69,9 +69,9 @@ export default async function api(id: string, options: any = {}, retry = true): 
         await refreshToken();
         return api(id, options, false); // passe false pour ne pas boucler
       }     catch (err) {
-        // refresh échoué
+        throw new Error("Refresh token failed");
+      }
     }
-}
     let data: any = {};
     try {
       data = await response.json();

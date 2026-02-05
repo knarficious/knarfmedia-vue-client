@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import api from "@/utils/apiFormData";
+import apiFormData from "@/utils/apiFormData";
 import type { Publication } from "@/types/publication";
 import type { CreateState } from "@/types/stores";
 import type { SubmissionErrors } from "@/types/error";
@@ -30,12 +30,12 @@ export const usePublicationCreateStore = defineStore("publicationCreate", {
       //formdata.append("tags", payload.tags ?? '');      
 
       try {
-        const response = await api("publications", {
+        const response = await apiFormData("publications", {
           method: "POST",
           body: formdata,
         });
 
-        const data: Publication = await response.json()
+        const data: Publication = await response?.json()
         this.toggleLoading();
         this.setCreated(data);
       } catch (error) {

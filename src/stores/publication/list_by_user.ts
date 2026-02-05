@@ -16,24 +16,22 @@ export const useUserPublicationsListStore = defineStore("userPublicationsList", 
   actions: {
     async getItems(page?: string, userId?: number) {
       this.setError("");
-      this.toggleLoading();
 
       try {
         const path = page ? `publications?page=${page}` : "users/" + userId + "/publications";
         const response = await api(path);
         const data: PagedCollection<Publication> = await response.json();
 
-        this.toggleLoading();
-
         this.setItems(data["hydra:member"]);
 
-      } catch (error) {
-        this.toggleLoading();
+      } catch (error) {        
 
         if (error instanceof Error) {
           this.setError(error.message);
         }
-      }
+      } finally {
+    this.isLoading = false;
+  }
     },
 
     toggleLoading() {

@@ -20,6 +20,7 @@ export default [
     name: "UserShow",
     path: "/users/show/:id",
     component: () => import("@/views/user/ViewShow.vue"),
+    props: true,
     meta: { requiresAuth: true }
   },
   {

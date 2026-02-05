@@ -41,7 +41,7 @@ const response = await api(url, {
   method: "POST",
   body: JSON.stringify(payload),
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/ld+json",
   },
 });
         const data: Comment = await response.json();

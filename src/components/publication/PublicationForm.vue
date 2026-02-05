@@ -136,7 +136,7 @@
 </template>
 
 <script lang="ts" setup>
-import { toRef, ref, type Ref, onMounted, toRaw } from "vue";
+import { toRef, ref, type Ref, onMounted, toRaw } from 'vue';
 import { formatDateInput } from "@/utils/date";
 import type { Publication } from "@/types/publication";
 import type { SubmissionErrors } from "@/types/error";

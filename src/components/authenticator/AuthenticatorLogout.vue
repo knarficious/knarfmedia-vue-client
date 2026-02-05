@@ -2,15 +2,16 @@
   <div></div>
 </template>
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { onBeforeUnmount } from 'vue';
+
+import { onMounted } from 'vue';
 import { useUserAuthStore } from '@/stores/authenticator/auth';
+import { useRouter } from "vue-router";
 
-const router = useRouter();
 const useAuthStore = useUserAuthStore();
+const router = useRouter();
 
-useAuthStore.logout();
-onBeforeUnmount(() => {
-  useAuthStore.$reset();
-});
+onMounted(async () => {
+  await useAuthStore.logout()
+  router.replace('/')
+})
 </script>

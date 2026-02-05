@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount } from "vue";
+import { onBeforeUnmount } from 'vue';
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import Form from "@/components/publication/PublicationForm.vue";
